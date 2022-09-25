@@ -1,19 +1,19 @@
 # Asset management application
 
 ## Description
-Asset management application for CMP307, porject uses ASP.NET Core MVC App with Electron.NET to create a desktop application.
+Asset management application for CMP307, project uses ASP.NET Core MVC App with Electron.NET to create a desktop application.
 
 ## Setup
 
 ### ASP.NET Core
 
-Project requires ASP.NET Core 5 to be installed, recommended to install .NET Core 5 SDK
+Project requires ASP.NET Runtime 5 to be installed, recommended to install .NET Core 5 SDK
 
 ````
 sudo apt-get install dotnet-sdk-5.0
 ````
 
-Note: Configure your OS package manager to downlaod the SDK from packages.microsoft.com to ensure you have the correct version.
+Note: Configure your OS package manager to download the SDK from packages.microsoft.com to ensure you have the correct version.
 
 ## Usage
 
