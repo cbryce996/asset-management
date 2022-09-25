@@ -1,4 +1,4 @@
-# Quick Notes accounts microservice
+# Asset management application
 
 ## Description
 Asset management application for CMP307, porject uses ASP.NET Core MVC App with Electron.NET to create a desktop application.
