@@ -1,12 +1,25 @@
-﻿<!DOCTYPE html>
+﻿<!doctype html>
+<!-- 
+* Bootstrap Simple Admin Template
+* Version: 2.1
+* Author: Alexis Luna
+* Website: https://github.com/alexis-luna/bootstrap-simple-admin-template
+-->
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - project_cbryce996</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dashboard | Bootstrap Simple Admin Template</title>
+    <link href="~/lib/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="~/lib/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="~/lib/fontawesome/css/brands.min.css" rel="stylesheet">
+    <link href="~/lib/dist/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/master.css" rel="stylesheet">
+    <link href="~/lib/flagiconcss/css/flag-icon.min.css" rel="stylesheet">
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -29,20 +42,20 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="wrapper">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - project_cbryce996 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/chartsjs/Chart.min.js"></script>
+    <script src="~/js/dashboard-charts.js"></script>
+    <script src="~/js/script.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
