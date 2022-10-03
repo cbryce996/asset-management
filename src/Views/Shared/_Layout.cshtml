@@ -11,20 +11,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <base href="/app/">
     <title>Dashboard | Bootstrap Simple Admin Template</title>
     <link href="~/lib/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="~/lib/fontawesome/css/solid.min.css" rel="stylesheet">
     <link href="~/lib/fontawesome/css/brands.min.css" rel="stylesheet">
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="~/css/master.css" rel="stylesheet">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/lib/flagiconcss/css/flag-icon.min.css" rel="stylesheet">
+    <link href="~/css/master.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="wrapper">
         <nav id="sidebar" class="active">
             <div class="sidebar-header">
-                <img src="assets/img/bootstraper-logo.png" alt="bootraper logo" class="app-logo">
+                <img src="~/img/bootstraper-logo.png" alt="bootraper logo" class="app-logo">
             </div>
             <ul class="list-unstyled components text-secondary">
                 <li>
@@ -149,12 +150,12 @@
             @RenderBody()
         </div>
     </div>
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
     <script src="~/lib/chartsjs/Chart.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/dashboard-charts.js"></script>
-    <script src="~/js/script.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/script.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>
