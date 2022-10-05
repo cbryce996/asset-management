@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using project_cbryce996.Core.IConfiguration;
 using project_cbryce996.Models;
 
 namespace project_cbryce996.Controllers
@@ -13,14 +14,19 @@ namespace project_cbryce996.Controllers
     {
         private readonly ILogger<ManageController> _logger;
 
-        public ManageController(ILogger<ManageController> logger)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public ManageController(ILogger<ManageController> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var assets = await _unitOfWork.Assets.All();
+            await _unitOfWork.CompleteAsync();
+            return View(assets);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
