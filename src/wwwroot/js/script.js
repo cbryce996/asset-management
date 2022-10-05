@@ -10,5 +10,12 @@ $(document).ready(function () {
         $('#sidebar').toggleClass('active');
         $('#body').toggleClass('active');
     });
+
+    // Auto-hide sidebar on window resize if window size is small
+    $(window).on('resize', function () {
+        if ($(window).width() <= 900) {
+            $('#sidebar, #body').addClass('active');
+        }
+    });
 });
 
