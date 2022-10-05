@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "bootstrap@5.2.1",
+      "destination": "wwwroot/lib/bootstrap"
+    },
+    {
+      "library": "jquery@3.6.1",
+      "destination": "wwwroot/lib/jquery"
+    },
+    {
+      "library": "jQuery-Validation-Engine@2.6.4",
+      "destination": "wwwroot/lib/jQuery-Validation-Engine"
+    },
+    {
+      "library": "js-cookie@3.0.0",
+      "destination": "wwwroot/lib/js-cookie"
+    }
+  ]
+}
