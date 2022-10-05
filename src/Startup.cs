@@ -2,13 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+
 using ElectronNET.API;
+
+using project_cbryce996.Data;
 
 namespace project_cbryce996
 {
@@ -24,6 +29,11 @@ namespace project_cbryce996
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // MySql connection string
+            var connectionString = "server=lochnagar.abertay.ac.uk;user=sql2004624;password=b8DWGSDHEaoB;database=sql2004624";
+
+            // Add DbContext
+            services.AddDbContext<ApplicationDbContext>(option => option.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
             services.AddControllersWithViews();
         }
 
