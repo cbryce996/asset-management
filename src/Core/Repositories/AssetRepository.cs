@@ -15,7 +15,6 @@ namespace project_cbryce996.Core.Repositories
     {
         public AssetRepository(ApplicationDbContext _context, ILogger _logger) : base(_context, _logger)
         {
-            dbSet = context.Assets;
         }
 
         public override async Task<IEnumerable<Asset>> All()

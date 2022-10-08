@@ -25,7 +25,6 @@ namespace project_cbryce996.Controllers
         public async Task<IActionResult> Index()
         {
             var assets = await _unitOfWork.Assets.All();
-            await _unitOfWork.CompleteAsync();
             return View(assets);
         }
 

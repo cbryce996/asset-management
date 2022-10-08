@@ -3,10 +3,10 @@
     'use strict';
     
     $('#dataTables-example').DataTable({
-        responsive: true,
-        pageLength: 20,
-        lengthChange: false,
-        searching: true,
-        ordering: true
+        'responsive': false,
+        'pageLength': 20,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': true
     });
 })();

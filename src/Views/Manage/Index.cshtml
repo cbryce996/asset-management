@@ -3,42 +3,104 @@
 ViewData["Title"] = "Home Page";
 }
 <div class="content">
-    <div class="container-fluid">
-        <div class="page-title">
-            <h3>Assets
-                <a href="roles.html" class="btn btn-sm btn-primary float-end"><i class="fas fa-user-shield"></i> Add</a>
-            </h3>
+    <div class="container">
+        <div class="row">            
+            <div class="col-12 mt-3">
+                <div class="card">
+                    <div class="list-group list-group-flush">
+                        <div class="card-header">
+                            <h5 class="mb-0"> Add Asset </h5>
+                        </div>
+                        <div class="list-group-item">
+                            <form class="needs-validation" novalidate accept-charset="utf-8">
+                                <div class="row g-2">
+                                    <div class="col-md-6 mb-1">
+                                        <label for="name" class="form-label">System Name</label>
+                                        <input type="text" class="form-control" name="name" placeholder="Name of system" required>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please enter the system name.</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="Model" class="form-label">Model</label>
+                                        <input type="text" class="form-control" name="Model" placeholder="Model" required>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please enter the asset model.</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="Manufacturer" class="form-label">Manufacturer</label>
+                                        <input type="text" class="form-control" name="Manufacturer" placeholder="Manufacturer" required>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please select a State.</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="Type" class="form-label">Type</label>
+                                        <input type="text" class="form-control" name="Type" placeholder="Type" required>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please select a State.</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="Ip" class="form-label">IP Address</label>
+                                        <input type="text" class="form-control" name="Ip" placeholder="IP Address" required>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please select a State.</div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="float-end">
+                                <button href="roles.html" class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-sm fa-plus"></i><span class="ms-2">Add Asset</span></button>
+                                <button href="roles.html" class="btn btn-md btn-secondary"><i class="fas fa-sm fa-ban"></i><span class="ms-2">Cancel</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="box box-primary">
-            <div class="box-body">
-                <table width="100%" class="table table-hover table-striped" id="dataTables-example">
-                    <thead class="">
-                        <tr>
-                            <th>System Name</th>
-                            <th>Model</th>
-                            <th>Manufacturer</th>
-                            <th>Type</th>
-                            <th>IP Address</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var asset in Model)
-                        {
-                            <tr>
-                                <td>@asset.SystemName</td>
-                                <td>philip.chaney@gmail.com</td>
-                                <td>Manager</td>
-                                <td>Admin</td>
-                                <td>Active</td>
-                                <td class="text-end">
-                                    <a href="" class="btn btn-outline-info btn-rounded"><i class="fas fa-pen"></i></a>
-                                    <a href="" class="btn btn-outline-danger btn-rounded"><i class="fas fa-trash"></i></a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+        <div class="row">            
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"> Assets </h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <button href="roles.html" class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-sm fa-plus"></i><span class="ms-2">Add Asset</span></button>
+                            <button href="roles.html" class="btn btn-md btn-secondary"><i class="fas fa-sm fa-sync"></i></button>
+                            <div class="btn-group" role="group">
+                                <button href="roles.html" class="btn btn-md btn-secondary"><i class="fas fa-sm fa-pen"></i></button>
+                                <button href="roles.html" class="btn btn-md btn-secondary"><i class="fas fa-sm fa-trash"></i></button>
+                            </div>
+                            <button href="roles.html" class="btn btn-md btn-secondary"><span class="me-2">More</span><i class="fas fa-sm fa-caret-down"></i></button>
+                            <button href="roles.html" class="btn btn-md btn-secondary float-end"><span class="me-2">Filter by</span><i class="fas fa-sm fa-caret-down"></i></button>
+                        </li>
+                        <li class="list-group-item">
+                            <table width="100%" class="table table-hover table" id="dataTables-example">
+                                <thead class="" >
+                                    <tr>
+                                        <th>System Name</th>
+                                        <th>Model</th>
+                                        <th>Manufacturer</th>
+                                        <th>Type</th>
+                                        <th>IP Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var asset in Model)
+                                    {
+                                        <tr>
+                                            <td>@asset.SystemName</td>
+                                            <td>@asset.Model</td>
+                                            <td>@asset.Manufacturer</td>
+                                            <td>@asset.Type</td>
+                                            <td>@asset.Ip</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
