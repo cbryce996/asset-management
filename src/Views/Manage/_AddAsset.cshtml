@@ -1,0 +1,42 @@
+@model project_cbryce996.Models.ViewModels.AssetViewModels.CreateAssetViewModel;
+
+@using(Html.BeginForm("AddAsset", "Manage", FormMethod.Post))
+{
+<div class="card">
+    <div class="list-group list-group-flush">
+        <div class="card-header">
+            <h5 class="mb-0"> Add Asset </h5>
+        </div>
+        <div class="list-group-item">
+            <div class="row g-2">
+                <div class="col-md-6 mb-1">
+                    @Html.LabelFor(m => m.SystemName, new { @class = "form-label"})
+                    @Html.TextBoxFor(m => m.SystemName, new { @class = "form-control" })
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(m => m.Model, new { @class = "form-label"})
+                    @Html.TextBoxFor(m => m.Model, new { @class = "form-control" })
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(m => m.Manufacturer, new { @class = "form-label"})
+                    @Html.TextBoxFor(m => m.Manufacturer, new { @class = "form-control" })
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(m => m.Type, new { @class = "form-label"})
+                    @Html.TextBoxFor(m => m.Type, new { @class = "form-control" })
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(m => m.Ip, new { @class = "form-label"})
+                    @Html.TextBoxFor(m => m.Ip, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="list-group-item">
+            <div class="float-end">
+                <button class="btn btn-md btn-primary" type="submit" value="Submit"><i class="fas fa-sm fa-plus"></i><span class="ms-2">Add Asset</span></button>
+                <button href="roles.html" class="btn btn-md btn-secondary"><i class="fas fa-sm fa-ban"></i><span class="ms-2">Cancel</span></button>
+            </div>
+        </div>
+    </div>
+</div>
+}
