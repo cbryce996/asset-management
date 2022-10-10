@@ -15,40 +15,44 @@ namespace project_cbryce996.Controllers
 {
     public class ManageController : Controller
     {
-        public ManageAssetViewModel view;
-
         private readonly ILogger<ManageController> _logger;
 
         private readonly IUnitOfWork _unitOfWork;
 
         public ManageController(ILogger<ManageController> logger, IUnitOfWork unitOfWork)
         {
-            view = new ManageAssetViewModel();
             _logger = logger;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public IActionResult Index()
         {
-            view.ListViewModel = new ListAssetsViewModel();
-            view.ListViewModel.Assets = await _unitOfWork.Assets.All();
-            return View(view);
+            IEnumerable<Asset> _model;
+            _model = _unitOfWork.Assets.All();
+            return View(_model);
         }
 
-        public async Task<IActionResult> AddAsset(ManageAssetViewModel assetViewModel)
+        [HttpGet]
+        public IActionResult AddAsset()
         {
-                Asset asset = new Asset();
+            Asset _asset = new Asset();
+            return View(_asset);
+        }
 
-                asset.SystemName = assetViewModel.CreateViewModel.SystemName;
-                asset.Model = assetViewModel.CreateViewModel.Model;
-                asset.Manufacturer = assetViewModel.CreateViewModel.Manufacturer;
-                asset.Type = assetViewModel.CreateViewModel.Type;
-                asset.Ip = assetViewModel.CreateViewModel.Ip;
-
-                await _unitOfWork.Assets.Add(asset);
-                await _unitOfWork.CompleteAsync();
+        [HttpPost]
+        public IActionResult AddAsset(Asset asset)
+        {
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Assets.Add(asset);
+                _unitOfWork.Complete();
 
                 return RedirectToAction("Index");
+            }
+            else {
+                return View(asset);
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

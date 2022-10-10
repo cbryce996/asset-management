@@ -11,6 +11,6 @@ namespace project_cbryce996.Core.IConfiguration
         IAssetRepository Assets { get; }
 
         // Sends changes to database
-        Task CompleteAsync();
+        void Complete();
     }
 }

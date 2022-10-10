@@ -24,18 +24,23 @@ namespace project_cbryce996.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Ip")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Manufacturer")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Model")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("SystemName")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Type")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

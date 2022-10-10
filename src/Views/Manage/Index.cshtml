@@ -1,4 +1,4 @@
-﻿@model project_cbryce996.Models.ViewModels.ManageAssetViewModel;
+﻿@model IEnumerable<project_cbryce996.Models.Asset>;
 @{
 ViewData["Title"] = "Home Page";
 }
@@ -6,12 +6,48 @@ ViewData["Title"] = "Home Page";
     <div class="container">
         <div class="row">            
             <div class="col-12 mt-3">
-                <partial name="~/Views/Manage/_AddAsset.cshtml" for="CreateViewModel">
-            </div>
-        </div>
-        <div class="row">            
-            <div class="col-12">
-                <partial name="~/Views/Manage/_ListAssets.cshtml" for="ListViewModel">
+               <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"> Assets </h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a class="btn btn-md btn-primary" asp-area="" asp-controller="Manage" asp-action="AddAsset"><i class="fas fa-sm fa-plus"></i><span class="ms-2">Add Asset</span></a>
+                            <a class="btn btn-md btn-secondary" asp-area="" asp-controller="Manage" asp-action="Index"><i class="fas fa-sm fa-sync"></i></a>
+                            <div class="btn-group" role="group">
+                                <button href="roles.html" class="btn btn-md btn-secondary"><i class="fas fa-sm fa-pen"></i></button>
+                                <button href="roles.html" class="btn btn-md btn-secondary"><i class="fas fa-sm fa-trash"></i></button>
+                            </div>
+                            <button href="roles.html" class="btn btn-md btn-secondary"><span class="me-2">More</span><i class="fas fa-sm fa-caret-down"></i></button>
+                            <button href="roles.html" class="btn btn-md btn-secondary float-end"><span class="me-2">Filter by</span><i class="fas fa-sm fa-caret-down"></i></button>
+                        </li>
+                        <li class="list-group-item">
+                            <table width="100%" class="table table-hover table" id="dataTables-example">
+                                <thead class="" >
+                                    <tr>
+                                        <th>System Name</th>
+                                        <th>Model</th>
+                                        <th>Manufacturer</th>
+                                        <th>Type</th>
+                                        <th>IP Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var asset in Model)
+                                    {
+                                        <tr>
+                                            <td>@asset.SystemName</td>
+                                            <td>@asset.Model</td>
+                                            <td>@asset.Manufacturer</td>
+                                            <td>@asset.Type</td>
+                                            <td>@asset.Ip</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
