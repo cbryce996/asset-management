@@ -1,15 +1,15 @@
 using System;
+using System.Management;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using HardwareInformation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Logging;
 using project_cbryce996.Core.IConfiguration;
 using project_cbryce996.Models;
-using project_cbryce996.Models.ViewModels;
-using project_cbryce996.Models.ViewModels.AssetViewModels;
 
 namespace project_cbryce996.Controllers
 {
@@ -53,6 +53,15 @@ namespace project_cbryce996.Controllers
             else {
                 return View(asset);
             }
+        }
+
+        [HttpGet]
+        public IActionResult SystemInfo()
+        {
+            MachineInformation info = MachineInformationGatherer.GatherInformation();
+            Console.Out.WriteLine(info.Cpu.Name);
+
+            return RedirectToAction("AddAsset");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
