@@ -25,24 +25,46 @@ ViewData["Title"] = "Home Page";
                             <table width="100%" class="table table-hover table" id="dataTables-example">
                                 <thead class="" >
                                     <tr>
+                                        <th>Operating System</th>
+                                        <th>Bios Name</th>
+                                        <th>Bios Version</th>
+                                        <th>Bios Vendor</th>
+                                        <th>Motherboard Name</th>
+                                        <th>Motherboard Version</th>
+                                        <th>Motherboard Vendor</th>
+                                        <th>Cpu Name</th>
+                                        <th>Cpu Vendor</th>
+                                        <th>Cpu Model</th>
+                                        <th>Cpu Architecture</th>
+                                        <th>Gpu Name</th>
+                                        <th>Gpu Vendor</th>
+                                        <th>Gpu Type</th>
                                         <th>System Name</th>
-                                        <th>Model</th>
-                                        <th>Manufacturer</th>
-                                        <th>Type</th>
-                                        <th>IP Address</th>
+                                        <th>Ip</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var asset in Model)
-                                    {
-                                        <tr>
-                                            <td>@asset.SystemName</td>
-                                            <td>@asset.Model</td>
-                                            <td>@asset.Manufacturer</td>
-                                            <td>@asset.Type</td>
-                                            <td>@asset.Ip</td>
-                                        </tr>
-                                    }
+                                        @foreach (var asset in Model)
+                                        { 
+                                            <tr>
+                                                <td>@asset.Os</td>
+                                                <td>@asset.BiosName</td>
+                                                <td>@asset.BiosVersion</td>
+                                                <td>@asset.BiosVendor</td>
+                                                <td>@asset.MbName</td>
+                                                <td>@asset.MbVersion</td>
+                                                <td>@asset.MbVendor</td>
+                                                <td>@asset.CpuName</td>
+                                                <td>@asset.CpuVendor</td>
+                                                <td>@asset.CpuModel</td>
+                                                <td>@asset.CpuArch</td>
+                                                <td>@asset.GpuName</td>
+                                                <td>@asset.GpuVendor</td>
+                                                <td>@asset.GpuType</td>
+                                                <td>@asset.SystemName</td>
+                                                <td>@asset.Ip</td>
+                                            </tr>
+                                        }
                                 </tbody>
                             </table>
                         </li>

@@ -31,6 +31,7 @@ namespace project_cbryce996.Core.Repositories
             }
         }
 
+        /*
         public override bool Upsert(Asset entity)
         {
             try {
@@ -53,7 +54,7 @@ namespace project_cbryce996.Core.Repositories
                 _logger.LogError(ex, "{Repo} Upsert method error", typeof(AssetRepository));
                 return false;
             }
-        }
+        }*/
 
         public override bool Remove(Guid id)
         {

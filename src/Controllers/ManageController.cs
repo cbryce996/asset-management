@@ -59,9 +59,22 @@ namespace project_cbryce996.Controllers
         public IActionResult SystemInfo()
         {
             MachineInformation info = MachineInformationGatherer.GatherInformation();
-            Console.Out.WriteLine(info.Cpu.Name);
 
-            return RedirectToAction("AddAsset");
+            Asset asset = new Asset();
+
+            asset.Os = info.OperatingSystem.ToString();
+            asset.BiosName = info.SmBios.BIOSCodename;
+            asset.BiosVersion = info.SmBios.BIOSVersion;
+            asset.BiosVendor = info.SmBios.BIOSVendor;
+            asset.MbName = info.SmBios.BoardName;
+            asset.MbVersion = info.SmBios.BoardVersion;
+            asset.MbVendor = info.SmBios.BIOSVendor;
+            asset.CpuName = info.Cpu.Name;
+            asset.CpuVendor = info.Cpu.Vendor;
+            asset.CpuModel = info.Cpu.Model.ToString();
+            asset.CpuArch = info.Cpu.Architecture;
+
+            return View("AddAsset", asset);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
