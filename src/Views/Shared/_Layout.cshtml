@@ -25,21 +25,18 @@
 
 <body>
     <div class="wrapper">
-        <nav id="sidebar" class="">
+        <nav id="sidebar" class="active">
             <div class="sidebar-header">
-                <img src="~/img/bootstraper-logo.png" alt="bootraper logo" class="app-logo">
+                <h5>Asset Management</h5>
             </div>
             <ul class="list-unstyled components text-secondary">
                 <li>
-                    <a asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Dashboard</a>
-                </li>
-                <li>
-                    <a asp-area="" asp-controller="Manage" asp-action="Index"><i class="fas fa-file-alt"></i> Manage</a>
+                    <a asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-file-alt"></i> Manage</a>
                 </li>
             </ul>
         </nav>
         <!-- navbar navigation component -->
-        <div id="body" class="">
+        <div id="body" class="active">
             <nav class="navbar navbar-expand-lg navbar-white bg-white">
                 <button type="button" id="sidebarCollapse" class="btn btn-light">
                     <i class="fas fa-bars"></i><span></span>
