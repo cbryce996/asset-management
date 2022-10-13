@@ -24,9 +24,9 @@ namespace project_cbryce996.Data
             Assets = new AssetRepository(_context, _logger);
         }
 
-        public async Task CompleteAsync()
+        public void Complete()
         {
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public void Dispose()

@@ -9,8 +9,8 @@ using project_cbryce996.Data;
 namespace project_cbryce996.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221005210924_init")]
-    partial class init
+    [Migration("20221010151650_Non null values")]
+    partial class Nonnullvalues
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,18 +26,23 @@ namespace project_cbryce996.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Ip")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Manufacturer")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Model")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("SystemName")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Type")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

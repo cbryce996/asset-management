@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using project_cbryce996.Core.IRepositories;
 using project_cbryce996.Data;
 using project_cbryce996.Models;
+using System.Collections.Immutable;
 
 namespace project_cbryce996.Core.Repositories
 {
@@ -17,11 +18,11 @@ namespace project_cbryce996.Core.Repositories
         {
         }
 
-        public override async Task<IEnumerable<Asset>> All()
+        public override IEnumerable<Asset> All()
         {
             try
             {
-                return await dbSet.ToListAsync();
+                return dbSet.ToList();
             }
             catch(Exception ex)
             {
@@ -30,14 +31,15 @@ namespace project_cbryce996.Core.Repositories
             }
         }
 
-        public override async Task<bool> Upsert(Asset entity)
+        /*
+        public override bool Upsert(Asset entity)
         {
             try {
-                var existingAsset = await dbSet.Where(x => x.Id == entity.Id).FirstOrDefaultAsync();
+                var existingAsset = dbSet.Where(x => x.Id == entity.Id).FirstOrDefault();
 
                 if (existingAsset == null)
                 {
-                    return await Add(entity);
+                    return Add(entity);
                 }
 
                 existingAsset.SystemName = entity.SystemName;
@@ -52,12 +54,12 @@ namespace project_cbryce996.Core.Repositories
                 _logger.LogError(ex, "{Repo} Upsert method error", typeof(AssetRepository));
                 return false;
             }
-        }
+        }*/
 
-        public override async Task<bool> Remove(Guid id)
+        public override bool Remove(Guid id)
         {
             try {
-                var existingAsset = await dbSet.Where(x => x.Id == id).FirstOrDefaultAsync();
+                var existingAsset = dbSet.Where(x => x.Id == id).FirstOrDefault();
 
                 if (existingAsset != null) 
                 {

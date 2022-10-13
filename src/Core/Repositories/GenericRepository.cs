@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -23,28 +24,28 @@ namespace project_cbryce996.Core.Repositories
             this.dbSet = context.Set<T>();
         }
 
-        public async Task<bool> Add(T entity)
+        public bool Add(T entity)
         {
-            await dbSet.AddAsync(entity);
+            dbSet.Add(entity);
             return true;
         }
 
-        public virtual async Task<IEnumerable<T>> All()
+        public virtual IEnumerable<T> All()
         {
-            return await dbSet.ToListAsync();
+            return dbSet.ToList();
         }
 
-        public async Task<T> Get(Guid id)
+        public T Get(Guid id)
         {
-            return await dbSet.FindAsync(id);
+            return dbSet.Find(id);
         }
 
-        public virtual Task<bool> Remove(Guid id)
+        public virtual bool Remove(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public virtual Task<bool> Upsert(T entity)
+        public virtual bool Upsert(T entity)
         {
             throw new NotImplementedException();
         }

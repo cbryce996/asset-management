@@ -1,54 +1,80 @@
 using System;
+using System.Management;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using HardwareInformation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Logging;
 using project_cbryce996.Core.IConfiguration;
 using project_cbryce996.Models;
-using project_cbryce996.Models.ViewModels;
-using project_cbryce996.Models.ViewModels.AssetViewModels;
 
 namespace project_cbryce996.Controllers
 {
     public class ManageController : Controller
     {
-        public ManageAssetViewModel view;
-
         private readonly ILogger<ManageController> _logger;
 
         private readonly IUnitOfWork _unitOfWork;
 
         public ManageController(ILogger<ManageController> logger, IUnitOfWork unitOfWork)
         {
-            view = new ManageAssetViewModel();
             _logger = logger;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public IActionResult Index()
         {
-            view.ListViewModel = new ListAssetsViewModel();
-            view.ListViewModel.Assets = await _unitOfWork.Assets.All();
-            return View(view);
+            IEnumerable<Asset> _model;
+            _model = _unitOfWork.Assets.All();
+            return View(_model);
         }
 
-        public async Task<IActionResult> AddAsset(ManageAssetViewModel assetViewModel)
+        [HttpGet]
+        public IActionResult AddAsset()
         {
-                Asset asset = new Asset();
+            Asset _asset = new Asset();
+            return View(_asset);
+        }
 
-                asset.SystemName = assetViewModel.CreateViewModel.SystemName;
-                asset.Model = assetViewModel.CreateViewModel.Model;
-                asset.Manufacturer = assetViewModel.CreateViewModel.Manufacturer;
-                asset.Type = assetViewModel.CreateViewModel.Type;
-                asset.Ip = assetViewModel.CreateViewModel.Ip;
-
-                await _unitOfWork.Assets.Add(asset);
-                await _unitOfWork.CompleteAsync();
+        [HttpPost]
+        public IActionResult AddAsset(Asset asset)
+        {
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Assets.Add(asset);
+                _unitOfWork.Complete();
 
                 return RedirectToAction("Index");
+            }
+            else {
+                return View(asset);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult SystemInfo()
+        {
+            MachineInformation info = MachineInformationGatherer.GatherInformation();
+
+            Asset asset = new Asset();
+
+            asset.Os = info.OperatingSystem.ToString();
+            asset.BiosName = info.SmBios.BIOSCodename;
+            asset.BiosVersion = info.SmBios.BIOSVersion;
+            asset.BiosVendor = info.SmBios.BIOSVendor;
+            asset.MbName = info.SmBios.BoardName;
+            asset.MbVersion = info.SmBios.BoardVersion;
+            asset.MbVendor = info.SmBios.BIOSVendor;
+            asset.CpuName = info.Cpu.Name;
+            asset.CpuVendor = info.Cpu.Vendor;
+            asset.CpuModel = info.Cpu.Model.ToString();
+            asset.CpuArch = info.Cpu.Architecture;
+
+            return View("AddAsset", asset);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
