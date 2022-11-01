@@ -9,8 +9,8 @@ using project_cbryce996.Data;
 namespace project_cbryce996.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221010151650_Non null values")]
-    partial class Nonnullvalues
+    [Migration("20221101180220_Init DB")]
+    partial class InitDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,24 +25,31 @@ namespace project_cbryce996.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Ip")
-                        .IsRequired()
+                    b.Property<string>("CManufacturer")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Manufacturer")
-                        .IsRequired()
+                    b.Property<string>("CModel")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Model")
-                        .IsRequired()
+                    b.Property<string>("CName")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("SystemName")
-                        .IsRequired()
+                    b.Property<string>("CType")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
+                    b.Property<string>("IPAddress")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("MACAddress")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("OSArch")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("OSName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("OSVersion")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

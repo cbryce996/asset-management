@@ -23,52 +23,31 @@ namespace project_cbryce996.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("BiosName")
+                    b.Property<string>("CManufacturer")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("BiosVendor")
+                    b.Property<string>("CModel")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("BiosVersion")
+                    b.Property<string>("CName")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("CpuArch")
+                    b.Property<string>("CType")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("CpuModel")
+                    b.Property<string>("IPAddress")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("CpuName")
+                    b.Property<string>("MACAddress")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("CpuVendor")
+                    b.Property<string>("OSArch")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("GpuName")
+                    b.Property<string>("OSName")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("GpuType")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("GpuVendor")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Ip")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("MbName")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("MbVendor")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("MbVersion")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Os")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("SystemName")
+                    b.Property<string>("OSVersion")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

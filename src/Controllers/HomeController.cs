@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Management;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -58,6 +59,44 @@ namespace project_cbryce996.Controllers
         [HttpGet]
         public IActionResult SystemInfo()
         {
+            SelectQuery cs = new SelectQuery("Win32_ComputerSystem");  
+            ManagementObjectSearcher objCSDetails = new ManagementObjectSearcher(cs);  
+            ManagementObjectCollection csDetailsCollection = objCSDetails.Get();
+
+            SelectQuery os = new SelectQuery("Win32_OperatingSystem");  
+            ManagementObjectSearcher objOSDetails = new ManagementObjectSearcher(os);  
+            ManagementObjectCollection osDetailsCollection = objOSDetails.Get();
+
+            SelectQuery net = new SelectQuery("Win32_NetworkAdapterConfiguraiton");   
+            ManagementObjectSearcher objNETDetails = new ManagementObjectSearcher(net);  
+            ManagementObjectCollection netDetailsCollection = objNETDetails.Get();
+
+            Asset asset = new Asset();
+
+            foreach (ManagementObject mo in csDetailsCollection)  
+            {
+                asset.CName = mo["Name"].ToString();
+                asset.CModel = mo["Model"].ToString();
+                asset.CManufacturer = mo["Manufacturer"].ToString();
+                asset.CType = mo["SystemType"].ToString();
+            }
+
+            foreach (ManagementObject mo in osDetailsCollection)
+            {
+                asset.OSName = mo["Name"].ToString();   
+                asset.OSVersion = mo["Version"].ToString();
+                asset.OSArch = mo["OSArchitecture"].ToString();
+            }
+
+            asset.IPAddress =  Dns.GetHostByName(Dns.GetHostName()).AddressList[1].ToString();
+
+            return View("AddAsset", asset);
+        }
+        
+        /*
+        [HttpGet]
+        public IActionResult SystemInfo()
+        {
             MachineInformation info = MachineInformationGatherer.GatherInformation();
 
             Asset asset = new Asset();
@@ -78,7 +117,7 @@ namespace project_cbryce996.Controllers
             asset.CpuArch = info.Cpu.Architecture;
 
             return View("AddAsset", asset);
-        }
+        }*/
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

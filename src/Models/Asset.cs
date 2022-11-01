@@ -6,21 +6,23 @@ namespace project_cbryce996.Models
     public class Asset
     {
         public Guid Id { get; set; }
-        public string Os { get; set; }
-        public string BiosName { get; set; }
-        public string BiosVersion { get; set; }
-        public string BiosVendor { get; set; }
-        public string MbName { get; set; }
-        public string MbVersion { get; set; }
-        public string MbVendor { get; set; }
-        public string CpuName { get; set; }
-        public string CpuVendor { get; set; }
-        public string CpuModel { get; set; }
-        public string CpuArch { get; set; }
-        public string GpuName { get; set; }
-        public string GpuVendor { get; set; }
-        public string GpuType { get; set; }
-        public string SystemName { get; set; }
-        public string Ip { get; set; }
+        // Computer system name 
+        public string CName { get; set; }
+        // Computer system model
+        public string CModel { get; set; }
+        // Computer system manufactuter
+        public string CManufacturer { get; set; }
+        // Computer system type (CPU arch)
+        public string CType { get; set; }
+        // Operating System name
+        public string OSName { get; set; }
+        // Operating System version
+        public string OSVersion { get; set; }
+        // Operating System arch
+        public string OSArch { get; set; }
+        // Computers IP address
+        public string IPAddress { get; set; }
+        // Computers MAC address
+        public string MACAddress { get; set; }
     }
 }

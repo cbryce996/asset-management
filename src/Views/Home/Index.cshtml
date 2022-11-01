@@ -4,8 +4,8 @@ ViewData["Title"] = "Home Page";
 }
 <div class="content">
     <div class="container">
-        <div class="row">            
-            <div class="col-12 mt-3">
+        <div class="row mt-2">            
+            <div class="col-12">
                <div class="card">
                     <div class="card-header">
                         <h5 class="mb-0"> Assets </h5>
@@ -25,44 +25,30 @@ ViewData["Title"] = "Home Page";
                             <table width="100%" class="table table-hover table" id="dataTables-example">
                                 <thead class="" >
                                     <tr>
-                                        <th>Operating System</th>
-                                        <th>Bios Name</th>
-                                        <th>Bios Version</th>
-                                        <th>Bios Vendor</th>
-                                        <th>Motherboard Name</th>
-                                        <th>Motherboard Version</th>
-                                        <th>Motherboard Vendor</th>
-                                        <th>Cpu Name</th>
-                                        <th>Cpu Vendor</th>
-                                        <th>Cpu Model</th>
-                                        <th>Cpu Architecture</th>
-                                        <th>Gpu Name</th>
-                                        <th>Gpu Vendor</th>
-                                        <th>Gpu Type</th>
-                                        <th>System Name</th>
-                                        <th>Ip</th>
+                                        <th>Computer Name</th>
+                                        <th>Computer Model</th>
+                                        <th>Computer Manufacturer</th>
+                                        <th>Computer Type</th>
+                                        <th>OS Name</th>
+                                        <th>OS Version</th>
+                                        <th>OS Architecture</th>
+                                        <th>IP Address</th>
+                                        <th>MAC Address</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                         @foreach (var asset in Model)
                                         { 
                                             <tr>
-                                                <td>@asset.Os</td>
-                                                <td>@asset.BiosName</td>
-                                                <td>@asset.BiosVersion</td>
-                                                <td>@asset.BiosVendor</td>
-                                                <td>@asset.MbName</td>
-                                                <td>@asset.MbVersion</td>
-                                                <td>@asset.MbVendor</td>
-                                                <td>@asset.CpuName</td>
-                                                <td>@asset.CpuVendor</td>
-                                                <td>@asset.CpuModel</td>
-                                                <td>@asset.CpuArch</td>
-                                                <td>@asset.GpuName</td>
-                                                <td>@asset.GpuVendor</td>
-                                                <td>@asset.GpuType</td>
-                                                <td>@asset.SystemName</td>
-                                                <td>@asset.Ip</td>
+                                                <td>@asset.CName</td>
+                                                <td>@asset.CModel</td>
+                                                <td>@asset.CManufacturer</td>
+                                                <td>@asset.CType</td>
+                                                <td>@asset.OSName</td>
+                                                <td>@asset.OSVersion</td>
+                                                <td>@asset.OSArch</td>
+                                                <td>@asset.IPAddress</td>
+                                                <td>@asset.MACAddress</td>
                                             </tr>
                                         }
                                 </tbody>

@@ -14,101 +14,51 @@
                         <div class="list-group-item">
                             <div class="row g-2 mb-2">
                                 <div class="col-md-6 form-group">
-                                    @Html.LabelFor(m => m.BiosName, "Bios Name", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.BiosName, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.BiosName, "", new { @class = "text-danger" })
+                                    @Html.LabelFor(m => m.CName, "Computer Name", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.CName, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.CName, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-6">
-                                    @Html.LabelFor(m => m.BiosVersion, "Bios Version", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.BiosVersion, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.BiosVersion, "", new { @class = "text-danger" })
+                                    @Html.LabelFor(m => m.CModel, "Computer Model", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.CModel, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.CModel, "", new { @class = "text-danger" })
 
                                 </div>
                                 <div class="col-md-6">
-                                    @Html.LabelFor(m => m.BiosVendor, "Bios Vendor", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.BiosVendor, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.BiosVendor, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item">
-                            <div class="row g-2 mb-2">
-                                <div class="col-md-6">
-                                    @Html.LabelFor(m => m.MbName, "Motherboard Name", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.MbName, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.MbName, "", new { @class = "text-danger" })
+                                    @Html.LabelFor(m => m.CManufacturer, "Computer Manufacturer", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.CManufacturer, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.CManufacturer, "", new { @class = "text-danger" })
+
                                 </div>
                                 <div class="col-md-6">
-                                    @Html.LabelFor(m => m.MbVersion, "Motherboard Version", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.MbVersion, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.MbVersion, "", new { @class = "text-danger" })
+                                    @Html.LabelFor(m => m.CType, "Computer Type", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.CType, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.CType, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-6">
-                                    @Html.LabelFor(m => m.MbVendor, "Motherboard Vendor", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.MbVendor, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.MbVendor, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item">
-                            <div class="row g-2 mb-2">
-                                <div class="col-md-6">
-                                    @Html.LabelFor(m => m.CpuName, "Cpu Name", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.CpuName, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.CpuName, "", new { @class = "text-danger" })
+                                    @Html.LabelFor(m => m.OSName, "OS Name", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.OSName, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.OSName, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-6">
-                                    @Html.LabelFor(m => m.CpuVendor, "Cpu Vendor", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.CpuVendor, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.CpuVendor, "", new { @class = "text-danger" })
+                                    @Html.LabelFor(m => m.OSVersion, "OS Version", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.OSVersion, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.OSVersion, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-6">
-                                    @Html.LabelFor(m => m.CpuModel, "Cpu Model", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.CpuModel, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.CpuModel, "", new { @class = "text-danger" })
+                                    @Html.LabelFor(m => m.OSArch, "OS Architecture", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.OSArch, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.CType, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-6">
-                                    @Html.LabelFor(m => m.CpuArch, "Cpu Architecture", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.CpuArch, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.CpuArch, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item">
-                            <div class="row g-2 mb-2">
-                                <div class="col-md-6">
-                                    @Html.LabelFor(m => m.GpuName, "Gpu Name", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.GpuName, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.GpuName, "", new { @class = "text-danger" })
+                                    @Html.LabelFor(m => m.IPAddress, "Ip Address", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.IPAddress, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.IPAddress, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-6">
-                                    @Html.LabelFor(m => m.GpuVendor, "Gpu Vendor", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.GpuVendor, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.GpuVendor, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-6">
-                                    @Html.LabelFor(m => m.GpuType, "Gpu Type", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.GpuType, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.GpuType, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item">
-                            <div class="row g-2 mb-2">
-                                <div class="col-md-6">
-                                    @Html.LabelFor(m => m.SystemName, "System Name", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.SystemName, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.SystemName, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-6">
-                                    @Html.LabelFor(m => m.Ip, "Ip Address", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.Ip, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.Ip, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-6">
-                                    @Html.LabelFor(m => m.Os, "Operating System", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.Os, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.Os, "", new { @class = "text-danger" })
+                                    @Html.LabelFor(m => m.MACAddress, "MAC Address", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.MACAddress, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.MACAddress, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
