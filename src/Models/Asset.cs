@@ -1,11 +1,20 @@
 ﻿using System;
+using System.Management;
+using System.Text;
+using System.Security.Cryptography;
+using System.Net;
+using Vulkan;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace project_cbryce996.Models
 {
     public class Asset
     {
+        // UUID for asset
         public Guid Id { get; set; }
+        // Hardware Hash
+        public string HardwareHash { get; set; }
         // Computer system name 
         public string CName { get; set; }
         // Computer system model
@@ -24,5 +33,107 @@ namespace project_cbryce996.Models
         public string IPAddress { get; set; }
         // Computers MAC address
         public string MACAddress { get; set; }
+
+        public Asset()
+        {
+            CName = GetManagementField(
+                GetManagementCollection("SELECT * FROM Win32_ComputerSystemProduct"),
+                "UUID"
+            );
+            
+            CModel= GetManagementField(
+                GetManagementCollection("SELECT * FROM Win32_MotherBoardDevice"),
+                "DeviceID"
+            );
+
+            CManufacturer = GetManagementField(
+                GetManagementCollection("SELECT * FROM Win32_Processor"),
+                "ProcessorId"
+            );
+
+            CType = GetManagementField(
+                GetManagementCollection("SELECT * FROM Win32_ComputerSystem"),
+                "SystemType"
+            );
+
+            this.HardwareHash = BuildHardwareHash();
+        }
+
+        public Asset(string _CName, string _CModel, string _CManufacturer, string _CType, string _OSName, string _OSVersion, string _OSArch, string _IPAddress, string _MACAddress)
+        {
+            HardwareHash = "Unknown";
+            CName = _CName;
+            CModel = _CModel;
+            CManufacturer = _CManufacturer;
+            CType = _CType;
+            OSVersion = _OSVersion;
+            OSArch = _OSArch;
+            IPAddress = _IPAddress;
+            MACAddress = _MACAddress;
+        }
+
+        private string BuildHardwareHash()
+        {
+            try
+            {
+                string SystemIdHash = GetManagementField(
+                    GetManagementCollection("SELECT * FROM Win32_ComputerSystemProduct"),
+                    "UUID"
+                );
+
+                string MotherBoardIdHash = GetManagementField(
+                    GetManagementCollection("SELECT * FROM Win32_MotherBoardDevice"),
+                    "DeviceID"
+                );
+
+                string ProcessorIdHash = GetManagementField(
+                    GetManagementCollection("SELECT * FROM Win32_Processor"),
+                    "ProcessorId"
+                );
+
+                return CreateHash(SystemIdHash + MotherBoardIdHash + ProcessorIdHash);
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine(exc.Message);
+                return null;
+            }
+        }
+
+        private ManagementObjectCollection GetManagementCollection(string query)
+        {
+            ManagementObjectSearcher hardwareObjectSearcher = new ManagementObjectSearcher(query);
+            ManagementObjectCollection hardwareObjectCollection = hardwareObjectSearcher.Get();
+
+            return hardwareObjectCollection;
+        }
+
+        private string GetManagementField(ManagementObjectCollection managementObjectCollection, string field)
+        {
+            string queryResult = "";
+
+            foreach (ManagementObject obj in managementObjectCollection)
+            {
+                queryResult = obj[field].ToString();
+                break;
+            }
+
+            return queryResult;
+        }
+
+        private string CreateHash(string input)
+        {
+            StringBuilder stringResult = new StringBuilder();
+
+            Encoding enc = Encoding.UTF8;
+            byte[] hashResult = SHA256.Create().ComputeHash(enc.GetBytes(input));
+            
+            foreach (byte b in hashResult)
+            {
+                stringResult.Append(b);
+            }
+
+            return stringResult.ToString();
+        }
     }
 }

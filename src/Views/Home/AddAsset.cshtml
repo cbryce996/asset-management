@@ -60,6 +60,11 @@
                                     @Html.TextBoxFor(m => m.MACAddress, new { @class = "form-control"})
                                     @Html.ValidationMessageFor(m => m.MACAddress, "", new { @class = "text-danger" })
                                 </div>
+                                <div class="col-md-6">
+                                    @Html.LabelFor(m => m.HardwareHash, "Hardware Hash", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.HardwareHash, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.HardwareHash, "", new { @class = "text-danger" })
+                                </div>
                             </div>
                         </div>
                         <div class="list-group-item">
