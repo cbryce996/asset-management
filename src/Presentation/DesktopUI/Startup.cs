@@ -7,12 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 
+using AssetManagement.Application.Common.Interfaces;
+using AssetManagement.Infrastructure.Persistence;
+
 using ElectronNET.API;
 
-using project_cbryce996.Data;
-using project_cbryce996.Core.IConfiguration;
-
-namespace project_cbryce996
+namespace AssetManagement.DesktopUI
 {
     public class Startup
     {

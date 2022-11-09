@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using ElectronNET.API;
 
-namespace project_cbryce996
+namespace AssetManagement.DesktopUI
 {
     public class Program
     {

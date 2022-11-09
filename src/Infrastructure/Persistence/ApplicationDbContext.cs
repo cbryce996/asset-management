@@ -5,9 +5,11 @@
 */
 
 using Microsoft.EntityFrameworkCore;
-using project_cbryce996.Models;
 
-namespace project_cbryce996.Data
+using AssetManagement.Domain.Entities;
+using AssetManagement.Application.Common.Interfaces;
+
+namespace AssetManagement.Infrastructure.Persistence
 {
     public class ApplicationDbContext : DbContext
     {

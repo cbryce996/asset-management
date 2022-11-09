@@ -5,15 +5,11 @@
 */
 
 using System;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using project_cbryce996.Core.IConfiguration;
-using project_cbryce996.Core.IRepositories;
-using project_cbryce996.Core.Repositories;
 
-using Microsoft.Extensions.DependencyInjection;
+using AssetManagement.Application.Common.Interfaces;
 
-namespace project_cbryce996.Data
+namespace AssetManagement.Infrastructure.Persistence
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {

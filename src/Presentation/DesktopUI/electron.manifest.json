@@ -14,7 +14,7 @@
     "buildVersion": "1.0.0",
     "compression": "maximum",
     "directories": {
-      "output": "/share/CMP307"
+      "output": "../../../../../../build"
     },
     "extraResources": [
       {

@@ -1,18 +1,13 @@
-﻿using System;
-using System.Net;
-using System.Management;
+﻿using System.Diagnostics;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using HardwareInformation;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.Logging;
-using project_cbryce996.Core.IConfiguration;
-using project_cbryce996.Models;
 
-namespace project_cbryce996.Controllers
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
+using AssetManagement.DesktopUI.Models;
+using AssetManagement.Application.Common.Interfaces;
+
+namespace AssetManagement.DesktopUI.Controllers
 {
     public class HomeController : Controller
     {

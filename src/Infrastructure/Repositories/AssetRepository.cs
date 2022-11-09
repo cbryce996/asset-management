@@ -7,16 +7,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
-using project_cbryce996.Core.IRepositories;
-using project_cbryce996.Data;
-using project_cbryce996.Models;
 using System.Collections.Immutable;
 
-namespace project_cbryce996.Core.Repositories
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+
+using AssetManagement.Domain.Entities;
+using AssetManagement.Application.Common.Interfaces;
+
+namespace AssetManagement.Infrastructure.Persistence
 {
     public class AssetRepository : GenericRepository<Asset>, IAssetRepository
     {

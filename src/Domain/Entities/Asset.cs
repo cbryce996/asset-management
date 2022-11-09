@@ -7,7 +7,7 @@ using Vulkan;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace project_cbryce996.Models
+namespace AssetManagement.Domain.Entities
 {
     public class Asset
     {

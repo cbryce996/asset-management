@@ -36,7 +36,7 @@ dotnet restore
 
 ### NPM and Node.JS
 
-Project requires NPM and Node.JS for Electron to work, install using the following commands.
+Project requires NPM and NodeJS for Electron to work, install using the following commands.
 
 ````
 sudo apt-get install npm
@@ -50,7 +50,7 @@ Note: Check latest versions are provided by your OS package manager, breaking ty
 ## Usage
 
 ### Electron.NET
-The project uses Electron.NET to create a desktop interface, it runs an ASP.NET Core process within an Electron process and opens a local port for communication with the Electron interface. To start the application use the following command from /src.
+The project uses Electron.NET to create a desktop interface, it runs an ASP.Net Core process within an Electron process which opens a local port for communication with the Electron interface. To start the application use the following command.
 
 ### Run
 To run the project as a desktop application.
