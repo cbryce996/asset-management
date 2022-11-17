@@ -1,15 +1,15 @@
 {
-  "executable": "project-cbryce996",
+  "executable": "AssetManagement.DesktopUI",
   "splashscreen": {
     "imageFile": ""
   },
-  "name": "project-cbryce996",
+  "name": "AssetManagement.DesktopUI",
   "author": "",
   "singleInstance": false,
   "environment": "Production",
   "build": {
-    "appId": "com.project-cbryce996.app",
-    "productName": "project-cbryce996",
+    "appId": "com.AssetManagement.DesktopUI.app",
+    "productName": "AssetManagement.DesktopUI",
     "copyright": "Copyright © 2020",
     "buildVersion": "1.0.0",
     "compression": "maximum",

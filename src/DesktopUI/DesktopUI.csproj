@@ -3,13 +3,12 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>AssetManagement.DesktopUI</RootNamespace>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../Application/Application.csproj"/>
-    <ProjectReference Include="../../Infrastructure/Infrastructure.csproj"/>
+    <ProjectReference Include="../Application/Application.csproj"/>
+    <ProjectReference Include="../Infrastructure/Infrastructure.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
