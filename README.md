@@ -16,6 +16,10 @@ An Asset Management application developed for my Software Engineering module, th
     ├── LICENSE
     └── README.md
 
+Model of the Asset Management application.
+
+![Model](https://www.plantuml.com/plantuml/png/dLJBReCm4BpxAtpiG_m1Ya9JgU6GDchLt5tOKbemo3QAgef_xouOFoebbN9YFVRExeozhBKHoWnjmrWlYYzH0R_lMb5B_kEHb-xT78K2mbpS9OdRo4l6YaPexO-cQLPL2YfXuBdhp6g5oVmsoE2OX80sgfOLVnGj1Ci3A5rtCa1sGWxleZ230iL6ndXS3_dIz22Q0PxUFg5mzMmsrKgMnTrGDsLUNbqpZaHZeFDR6sX9vKo-5QeaygtG7sVfwK2mV0092eKJZ5Mm0hFKasbJY1q5MBxFobA1rY6uopOBkhWxRvxorX9RPnqdptjQUpeqiw2kN09L2yN6zIxpTbn8V1zdMNgV4NHwBYNm9xx7NEAhRXgwo2MSJ9vZx7T1a-J6QemX-wYS0hjtmdV7QuqFtcGm8E45kISm_YdnlzMnqbSDYcHENz98WP_62JxHzNmodaB2P3o9U-GvTcewLKl3zw3QMjDmQj-zvRhibSIAihvlwa8OB13-WZOAi7y_eDpchK6M-FVw1G00 "Model")
+
 ## Setup
 
 ### ASP.NET Core
