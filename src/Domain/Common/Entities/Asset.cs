@@ -3,12 +3,12 @@ using System.Management;
 using System.Text;
 using System.Security.Cryptography;
 using System.Net;
-using Vulkan;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace AssetManagement.Domain.Entities
 {
+    /*
     public class Asset
     {
         // UUID for asset
@@ -136,4 +136,5 @@ namespace AssetManagement.Domain.Entities
             return stringResult.ToString();
         }
     }
+    */
 }

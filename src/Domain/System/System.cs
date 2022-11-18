@@ -10,7 +10,7 @@ namespace AssetManagement.Domain.System
     public class System
     {
         public SystemId Id { get; set; }
-        public IPAddress Ip { get; set; }
-        public MACAddress Mac { get; set; }
+        public IpAddress Ip { get; set; }
+        public MacAddress Mac { get; set; }
     }
 }

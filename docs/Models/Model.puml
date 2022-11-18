@@ -4,7 +4,7 @@ package Domain {
 
 package Software {
 
-Software o-- SoftwareId
+Software --o SoftwareId
 
 class Software <<AggregateRoot>> {
  + SoftwareId Id
@@ -28,9 +28,9 @@ class HardwareHash <<ValueObject>> {
 }
 
 
-System o-- SystemId
-System o-- IPAddress
-System o-- MACAddress
+System --o SystemId
+System --o IPAddress
+System --o MACAddress
 
 class System <<AggregateRoot>> {
  + SystemId Id
@@ -57,7 +57,7 @@ class MACAddress <<ValueObject>> {
 
 package Install {
 
-Install o-- InstallId
+Install --o InstallId
 Install --* System
 Install --* Software
 
@@ -93,11 +93,44 @@ class UserId <<ValueObject>> {
 
 }
 
-package Application {
+package Infrastructure {
 
-package CreateSystem {
+package Repository {
 
- 
+AssetRepository --> Repository
+
+class AssetRepository {
+ + Assets: List<Asset>
+}
+
+class Repository {
+ + Entities : List<T>
+ + bool Add(T)
+ + List<T> All()
+ + Asset Get(id)
+ + bool Remove(id)
+}
+
+}
+
+package Persistence {
+
+UnitOfWork --o DbContext
+UnitOfWork --o AssetRepository
+
+class UnitOfWork {
+ + Asset : Repository
+ + DbContext : DbContext
+ + void Start()
+ + void Complete()
+ + void Dispose()
+}
+
+class DbContext {
+ + Connection : String
+ + bool Query(String)
+ + bool Connect()
+}
 
 }
 

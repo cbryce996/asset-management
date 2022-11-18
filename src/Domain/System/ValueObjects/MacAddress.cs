@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AssetManagement.Domain.System.ValueObjects
 {
-    public class MACAddress
+    public class MacAddress
     {
         
     }
