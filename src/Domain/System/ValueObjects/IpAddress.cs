@@ -7,6 +7,15 @@ namespace AssetManagement.Domain.System.ValueObjects
 {
     public class IpAddress
     {
-        
+        public string Ip { get; set; }
+
+        public IpAddress()
+        {
+        }
+
+        public IpAddress(string _Ip)
+        {
+            Ip = _Ip;
+        }
     }
 }

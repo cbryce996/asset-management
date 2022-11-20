@@ -7,7 +7,7 @@ using AssetManagement.Domain.System.ValueObjects;
 
 namespace AssetManagement.Domain.System
 {
-    public class System
+    public class SystemEntity
     {
         public SystemId Id { get; set; }
         public IpAddress Ip { get; set; }

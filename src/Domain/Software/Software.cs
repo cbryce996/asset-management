@@ -8,7 +8,7 @@ using AssetManagement.Domain.Software.ValueObjects;
 
 namespace AssetManagement.Domain.Software
 {
-    public class Software
+    public class SoftwareEntity
     {
         public SoftwareId Id { get; set; }
         public string Name { get; set; }

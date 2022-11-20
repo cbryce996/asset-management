@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace AssetManagement.Application.Common.Interfaces
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IRepository<T> where T : class
     {
         // Generic methods available to all repository
         IEnumerable<T> All();

@@ -5,11 +5,14 @@
 */
 
 
+using AssetManagement.Application.Common.Interfaces.IRepositories;
+
 namespace AssetManagement.Application.Common.Interfaces
 {
     public interface IUnitOfWork
     {
-        IAssetRepository Assets { get; }
+        ISystemRepository SystemRepository { get; }
+        ISoftwareRepository SoftwareRepository { get; }
 
         // Sends changes to database
         void Complete();

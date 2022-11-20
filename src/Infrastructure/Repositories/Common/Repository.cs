@@ -12,18 +12,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 
-using AssetManagement.Domain.Entities;
 using AssetManagement.Application.Common.Interfaces;
+using AssetManagement.Infrastructure.Persistence;
 
-namespace AssetManagement.Infrastructure.Persistence
+namespace AssetManagement.Infrastructure.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
         protected ApplicationDbContext _context;
         protected DbSet<T> dbSet;
         protected readonly ILogger _logger;
 
-        public GenericRepository(ApplicationDbContext context, ILogger logger)
+        public Repository(ApplicationDbContext context, ILogger logger)
         {
             _context = context;
             _logger = logger;

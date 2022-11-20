@@ -33,7 +33,6 @@ namespace AssetManagement.Domain.Entities
         public string IPAddress { get; set; }
         // Computers MAC address
         public string MACAddress { get; set; }
-
         public Asset()
         {
             CName = GetManagementField(

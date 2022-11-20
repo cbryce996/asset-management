@@ -8,7 +8,7 @@ using AssetManagement.Domain.System.ValueObjects;
 
 namespace AssetManagement.Domain.Install
 {
-    public class Install
+    public class InstallEntity
     {
         public SystemId SystemId { get; set; }
         public SoftwareId SoftwareId { get; set; }

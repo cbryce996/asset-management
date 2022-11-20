@@ -8,6 +8,8 @@ using System;
 using Microsoft.Extensions.Logging;
 
 using AssetManagement.Application.Common.Interfaces;
+using AssetManagement.Application.Common.Interfaces.IRepositories;
+using AssetManagement.Infrastructure.Repositories;
 
 namespace AssetManagement.Infrastructure.Persistence
 {
@@ -15,15 +17,17 @@ namespace AssetManagement.Infrastructure.Persistence
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger _logger;
-        
-        public IAssetRepository Assets { get; private set; }
+
+        public ISoftwareRepository SoftwareRepository { get; private set; }
+        public ISystemRepository SystemRepository { get; private set; }
 
         public UnitOfWork(ApplicationDbContext context, ILoggerFactory loggerFactory)
         {
             _context = context;
             _logger = loggerFactory.CreateLogger("logs");
 
-            Assets = new AssetRepository(_context, _logger);
+            SoftwareRepository = new SoftwareRepository(_context, _logger);
+            SystemRepository = new SystemRepository(_context, _logger);
         }
 
         public void Complete()
