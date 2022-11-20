@@ -18,6 +18,8 @@ namespace AssetManagement.Infrastructure.Persistence
         private readonly ApplicationDbContext _context;
         private readonly ILogger _logger;
 
+        public IInstallRepository InstallRepository { get; private set; }
+
         public ISoftwareRepository SoftwareRepository { get; private set; }
         public ISystemRepository SystemRepository { get; private set; }
 
@@ -26,6 +28,7 @@ namespace AssetManagement.Infrastructure.Persistence
             _context = context;
             _logger = loggerFactory.CreateLogger("logs");
 
+            InstallRepository = new InstallRepository(_context, _logger);
             SoftwareRepository = new SoftwareRepository(_context, _logger);
             SystemRepository = new SystemRepository(_context, _logger);
         }

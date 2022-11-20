@@ -11,6 +11,7 @@ namespace AssetManagement.Application.Common.Interfaces
 {
     public interface IUnitOfWork
     {
+        IInstallRepository InstallRepository { get; }
         ISystemRepository SystemRepository { get; }
         ISoftwareRepository SoftwareRepository { get; }
 
