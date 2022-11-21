@@ -11,7 +11,6 @@ namespace AssetManagement.Application.Common.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IInstallRepository InstallRepository { get; set; }
         ISoftwareRepository SoftwareRepository { get; set; }
         ISystemRepository SystemRepository { get; set; }
 

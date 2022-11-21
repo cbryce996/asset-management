@@ -17,7 +17,7 @@ namespace AssetManagement.DesktopUI.Controllers
     public class AdminController: Controller
     {
         private readonly ILogger<AdminController> logger;
-        private readonly SystemServices systemServices;
+        private readonly AdminServices adminServices;
         
         public AdminController(ILogger<AdminController> _logger)
         {
@@ -25,7 +25,7 @@ namespace AssetManagement.DesktopUI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetSystems()
+        public IActionResult Index()
         {
             MapperConfiguration config = new MapperConfiguration(cfg => {
                 cfg.CreateMap<SystemDTO, SystemViewModel>();
@@ -33,7 +33,7 @@ namespace AssetManagement.DesktopUI.Controllers
 
             IMapper mapper = config.CreateMapper();
 
-            IEnumerable<SystemDTO> systemList = systemServices.Get();
+            IEnumerable<SystemDTO> systemList = adminServices.Get();
             IEnumerable<SystemViewModel> systemViewModelList = new SystemViewModel[]{};
             foreach (SystemDTO system in systemList)
             {

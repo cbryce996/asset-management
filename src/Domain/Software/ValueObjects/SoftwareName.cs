@@ -5,8 +5,13 @@ using System.Threading.Tasks;
 
 namespace AssetManagement.Domain.Software.ValueObjects
 {
-    public class SoftwareId
+    public class SoftwareName
     {
-        
+        public string Name { get; set; }
+
+        public SoftwareName(string _Name)
+        {
+            Name = _Name;
+        }
     }
 }
