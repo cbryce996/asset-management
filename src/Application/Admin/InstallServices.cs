@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using AssetManagement.Application.Admin.DTOs;
 using AssetManagement.Application.Common.Interfaces;
 using AssetManagement.Application.Common.Interfaces.IRepositories;
+using AssetManagement.Domain.Install;
+using AssetManagement.Domain.Software.ValueObjects;
 
 namespace AssetManagement.Application.Admin
 {
@@ -19,9 +21,9 @@ namespace AssetManagement.Application.Admin
 
         public InstallDTO Add(InstallDTO _install)
         {
-            // Check for existing system
-            //
-            return new InstallDTO();
+            this.unitOfWork.InstallRepository.Add(new InstallEntity());
+            this.unitOfWork.Complete();
+            return _install;
         }
     }
 }

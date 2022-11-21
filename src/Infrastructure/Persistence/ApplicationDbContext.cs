@@ -10,14 +10,12 @@ using AssetManagement.Domain.Entities;
 using AssetManagement.Application.Common.Interfaces;
 using AssetManagement.Domain.Software;
 using AssetManagement.Domain.System;
+using AssetManagement.Domain.Install;
 
 namespace AssetManagement.Infrastructure.Persistence
 {
     public class ApplicationDbContext : DbContext
     {
-        public virtual DbSet<SoftwareEntity> SoftwareSet { get; set; }
-        public virtual DbSet<SystemEntity> SystemSet { get; set; }
-
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             

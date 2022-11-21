@@ -4,16 +4,16 @@
     Date: 01/11/2022
 */
 
-
+using System;
 using AssetManagement.Application.Common.Interfaces.IRepositories;
 
 namespace AssetManagement.Application.Common.Interfaces
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
-        IInstallRepository InstallRepository { get; }
-        ISystemRepository SystemRepository { get; }
-        ISoftwareRepository SoftwareRepository { get; }
+        IInstallRepository InstallRepository { get; set; }
+        ISoftwareRepository SoftwareRepository { get; set; }
+        ISystemRepository SystemRepository { get; set; }
 
         // Sends changes to database
         void Complete();

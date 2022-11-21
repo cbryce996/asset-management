@@ -18,10 +18,10 @@ namespace AssetManagement.Infrastructure.Persistence
         private readonly ApplicationDbContext _context;
         private readonly ILogger _logger;
 
-        public IInstallRepository InstallRepository { get; private set; }
+        public IInstallRepository InstallRepository { get; set; }
 
-        public ISoftwareRepository SoftwareRepository { get; private set; }
-        public ISystemRepository SystemRepository { get; private set; }
+        public ISoftwareRepository SoftwareRepository { get; set; }
+        public ISystemRepository SystemRepository { get; set; }
 
         public UnitOfWork(ApplicationDbContext context, ILoggerFactory loggerFactory)
         {

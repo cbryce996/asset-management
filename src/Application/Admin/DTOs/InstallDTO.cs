@@ -7,6 +7,6 @@ namespace AssetManagement.Application.Admin.DTOs
 {
     public class InstallDTO
     {
-        
+        string SoftwareId { get; set; }
     }
 }
