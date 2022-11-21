@@ -1,0 +1,35 @@
+{
+  "executable": "AssetManagement.DesktopUI",
+  "splashscreen": {
+    "imageFile": ""
+  },
+  "name": "AssetManagement.DesktopUI",
+  "author": "",
+  "singleInstance": false,
+  "environment": "Production",
+  "build": {
+    "appId": "com.AssetManagement.DesktopUI.app",
+    "productName": "AssetManagement.DesktopUI",
+    "copyright": "Copyright © 2020",
+    "buildVersion": "1.0.0",
+    "compression": "maximum",
+    "directories": {
+      "output": "../../../../../../build"
+    },
+    "extraResources": [
+      {
+        "from": "./bin",
+        "to": "bin",
+        "filter": [ "**/*" ]
+      }
+    ],
+    "files": [
+      {
+        "from": "./ElectronHostHook/node_modules",
+        "to": "ElectronHostHook/node_modules",
+        "filter": [ "**/*" ]
+      },
+      "**/*"
+    ]
+  }
+}

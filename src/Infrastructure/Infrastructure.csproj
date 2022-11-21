@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>AssetManagement.Infrastructure</RootNamespace>
+    <AssemblyName>AssetManagement.Infrastructure</AssemblyName>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Application/Application.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.0" />
+  </ItemGroup>
+
+</Project>

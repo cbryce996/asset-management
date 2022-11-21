@@ -1,0 +1,138 @@
+@startuml
+
+package Domain {
+
+package Software {
+
+Software --o SoftwareId
+
+class Software <<AggregateRoot>> {
+ + SoftwareId Id
+ + string Name
+ + string Version
+ + string Manufacturer
+}
+
+ class SoftwareId <<ValueObject>> {
+ + string Id
+ - string BuildId()
+ }
+
+}
+
+package System {
+
+class HardwareHash <<ValueObject>> {
+ + string Hash
+ + string GenerateHash()
+}
+
+
+System --o SystemId
+System --o IPAddress
+System --o MACAddress
+
+class System <<AggregateRoot>> {
+ + SystemId Id
+ + IPAddress Ip
+ + MACAddress Mac
+}
+
+SystemId o-- HardwareHash
+
+class SystemId <<ValueObject>> {
+ + string Id
+ - string BuildId()
+}
+
+class IPAddress <<ValueObject>> {
+ + string Ip
+}
+
+class MACAddress <<ValueObject>> {
+ + string MACAddress
+}
+
+}
+
+package Install {
+
+Install --o InstallId
+Install --* System
+Install --* Software
+
+class Install <<AggregateRoot>> {
+ + InstallId Id
+ + SoftwareId SoftwareId
+ + SystemId SystemId
+}
+
+class InstallId <<ValueObject>> {
+ + string Id
+}
+
+}
+
+package User {
+
+User o-- UserId
+
+class User <<AggregateRoot>> {
+ + UserId Id
+ + string Username
+ + string Password
+ + int Permissions
+}
+
+class UserId <<ValueObject>> {
+ + string Id
+ - string BuildId()
+}
+
+}
+
+}
+
+package Infrastructure {
+
+package Repository {
+
+AssetRepository --> Repository
+
+class AssetRepository {
+ + Assets: List<Asset>
+}
+
+class Repository {
+ + Entities : List<T>
+ + bool Add(T)
+ + List<T> All()
+ + Asset Get(id)
+ + bool Remove(id)
+}
+
+}
+
+package Persistence {
+
+UnitOfWork --o DbContext
+UnitOfWork --o AssetRepository
+
+class UnitOfWork {
+ + Asset : Repository
+ + DbContext : DbContext
+ + void Start()
+ + void Complete()
+ + void Dispose()
+}
+
+class DbContext {
+ + Connection : String
+ + bool Query(String)
+ + bool Connect()
+}
+
+}
+
+}
+@enduml
