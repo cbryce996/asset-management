@@ -36,7 +36,7 @@ namespace AssetManagement.Application.Admin
             unitOfWork.Complete();
         }
 
-        public void InstallSoftwareOnSystem(SoftwareDTO _software, Guid _system)
+        public void AddSoftware(SoftwareDTO _software)
         {
             // Create new domain model
             SoftwareEntity software = new SoftwareEntity(
@@ -47,8 +47,9 @@ namespace AssetManagement.Application.Admin
 
             try 
             {
-                SystemEntity system = unitOfWork.SystemRepository.Get(_system);
-                system.AddSoftware(software);
+                //SystemEntity system = unitOfWork.SystemRepository.Get(_system);
+                //system.AddSoftware(software);
+                unitOfWork.SoftwareRepository.Add(software);
             } 
             catch 
             {

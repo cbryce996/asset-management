@@ -1,0 +1,47 @@
+@model AssetManagement.DesktopUI.Models.SystemViewModel;
+
+@using(Html.BeginForm("AddSystem", "Home", FormMethod.Post))
+{
+<div class="content">
+    <div class="container">
+        <div class="row">            
+            <div class="col-12 mt-3">
+                <div class="card">
+                    <div class="list-group list-group-flush">
+                        <div class="card-header">
+                            <h5 class="mb-0"> New System </h5>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row g-2 mb-2">
+                                <div class="col-md-6 form-group">
+                                    @Html.LabelFor(m => m.Name, "Name", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.LabelFor(m => m.IpAddress, "IP Address", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.IpAddress, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.IpAddress, "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.LabelFor(m => m.MacAddress, "MAC Address", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.MacAddress, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.MacAddress, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <a class="btn btn-md btn-secondary" type="submit" value="Submit" asp-area="" asp-controller="Manage" asp-action="SystemInfo"><i class="fas fa-sm fa-plus"></i><span class="ms-2">Get Info</span></a>
+                            <div class="float-end">
+                                <button class="btn btn-md btn-primary" type="submit" value="Submit"><i class="fas fa-sm fa-plus"></i><span class="ms-2">Add System</span></button>
+                                <a class="btn btn-md btn-secondary" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-sm fa-ban"></i><span class="ms-2">Cancel</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

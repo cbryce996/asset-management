@@ -36,6 +36,10 @@ namespace AssetManagement.Infrastructure.Persistence
             // Tell Entity Framework which Entities own each Value Objects
             builder.Entity<SystemEntity>().OwnsOne(x => x.Ip);
             builder.Entity<SystemEntity>().OwnsOne(x => x.Mac);
+
+            builder.Entity<SoftwareEntity>().OwnsOne(x => x.Manufacturer);
+            builder.Entity<SoftwareEntity>().OwnsOne(x => x.Name);
+            builder.Entity<SoftwareEntity>().OwnsOne(x => x.Version);
         }
     }
 }

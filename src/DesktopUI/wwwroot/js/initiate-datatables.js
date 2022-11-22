@@ -2,7 +2,15 @@
 $(Document).ready(function() {
     'use strict';
     
-    $('#dataTables-example').DataTable({
+    $('#systems').DataTable({
+        'pageLength': 20,
+        'searching': true,
+        'ordering': true,
+        'scrollX': true,
+        'autoWidth' : false
+    });
+
+    $('#software').DataTable({
         'pageLength': 20,
         'searching': true,
         'ordering': true,

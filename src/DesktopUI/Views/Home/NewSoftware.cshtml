@@ -1,0 +1,72 @@
+@model AssetManagement.DesktopUI.Models.SoftwareViewModel;
+
+@using(Html.BeginForm("AddSoftware", "Home", FormMethod.Post))
+{
+<div class="content">
+    <div class="container">
+        <div class="row">            
+            <div class="col-12 mt-3">
+                <div class="card">
+                    <div class="list-group list-group-flush">
+                        <div class="card-header">
+                            <h5 class="mb-0"> New Software </h5>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row g-2 mb-2">
+                                <div class="col-md-6 form-group">
+                                    @Html.LabelFor(m => m.Name, "Name", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.LabelFor(m => m.Version, "Version", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.Version, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.Version, "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.LabelFor(m => m.Manufacturer, "Manufacturer", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.Manufacturer, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.Manufacturer, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <a class="btn btn-md btn-secondary" type="submit" value="Submit" asp-area="" asp-controller="Manage" asp-action="SystemInfo"><i class="fas fa-sm fa-plus"></i><span class="ms-2">Get Info</span></a>
+                            <div class="float-end">
+                                <button class="btn btn-md btn-primary" type="submit" value="Submit"><i class="fas fa-sm fa-plus"></i><span class="ms-2">Add Software</span></button>
+                                <a class="btn btn-md btn-secondary" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-sm fa-ban"></i><span class="ms-2">Cancel</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">            
+            <div class="col-12">
+                <!-- Card -->
+               <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"> System </h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <table width="100%" class="table table-bordered table-hover table" id="software">
+                                <thead class="" >
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>IP Address</th>
+                                        <th>MAC Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

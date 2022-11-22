@@ -16,6 +16,11 @@ namespace AssetManagement.Domain.System
 
         public IEnumerable<SoftwareEntity> InstalledSoftware { get; set; }
 
+        public SystemEntity()
+        {
+            
+        }
+
         public SystemEntity(IpAddress _Ip, MacAddress _Mac)
         {
             Id = new Guid();

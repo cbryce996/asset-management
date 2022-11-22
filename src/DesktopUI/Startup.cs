@@ -11,6 +11,7 @@ using AssetManagement.Application.Common.Interfaces;
 using AssetManagement.Infrastructure.Persistence;
 
 using ElectronNET.API;
+using AssetManagement.Application.Admin;
 
 namespace AssetManagement.DesktopUI
 {
@@ -31,6 +32,7 @@ namespace AssetManagement.DesktopUI
 
             services.AddDbContext<ApplicationDbContext>(option => option.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
+            services.AddTransient<AdminServices>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddControllersWithViews();

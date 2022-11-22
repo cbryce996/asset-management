@@ -9,6 +9,11 @@ namespace AssetManagement.Domain.Software.ValueObjects
     {
         public string Manufacturer { get; set; }
 
+        public SoftwareManufacturer()
+        {
+            
+        }
+
         public SoftwareManufacturer(string _Manufacturer)
         {
             Manufacturer = _Manufacturer;

@@ -9,6 +9,11 @@ namespace AssetManagement.Domain.Software.ValueObjects
     {
         public string Name { get; set; }
 
+        public SoftwareName()
+        {
+            
+        }
+
         public SoftwareName(string _Name)
         {
             Name = _Name;
