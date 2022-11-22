@@ -1,14 +1,12 @@
-@model IEnumerable<AssetManagement.DesktopUI.Models.Asset>;
+@model AssetManagement.DesktopUI.Models.ViewSystemViewModel;
 @{
 ViewData["Title"] = "Home Page";
 }
 <!-- Content Wrapper -->
-<div class="content">
+<div class="content my-3 p-0">
     <div class="container">
-        <!-- Row -->
-        <div class="row mt-2">      
-           <!-- Form -->
-           <div class="col-12">
+         <div class="row">            
+            <div class="col-12">
                 <div class="card">
                     <div class="list-group list-group-flush">
                         <div class="card-header">
@@ -16,16 +14,35 @@ ViewData["Title"] = "Home Page";
                         </div>
                         <div class="list-group-item">
                             <div class="row g-2 mb-2">
+                                <div class="col-md-6 form-group">
+                                    <fieldset disabled>
+                                    @Html.LabelFor(m => m.System.Name, "Name", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.System.Name, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.System.Name, "", new { @class = "text-danger" })
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-6">
+                                    <fieldset disabled>
+                                    @Html.LabelFor(m => m.System.IpAddress, "IP Address", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.System.IpAddress, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.System.IpAddress, "", new { @class = "text-danger" })
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-6">
+                                    <fieldset disabled>
+                                    @Html.LabelFor(m => m.System.MacAddress, "MAC Address", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.System.MacAddress, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.System.MacAddress, "", new { @class = "text-danger" })
+                                    </fieldset>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-           <!-- End Form -->
         </div>
-        <!-- End Row -->
         <!-- Row -->
-        <div class="row mt-2">            
+        <div class="row mt-3">            
             <div class="col-12">
                 <!-- Card -->
                <div class="card">
@@ -33,6 +50,11 @@ ViewData["Title"] = "Home Page";
                         <h5 class="mb-0"> Software </h5>
                     </div>
                     <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href=@Url.Action("NewSoftware", new { Model.System.Id, Model.System.Name, Model.System.IpAddress, Model.System.MacAddress}) class="btn btn-md btn-primary"><i class="fas fa-sm fa-plus"></i><span class="ms-2">New</span></a>
+                            <a class="btn btn-md btn-secondary" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-sm fa-sync"></i></a>
+                            <button href="roles.html" class="btn btn-md btn-secondary float-end"><span class="me-2">Filter by</span><i class="fas fa-sm fa-caret-down"></i></button>
+                        </li>
                         <li class="list-group-item">
                             <table width="100%" class="table table-bordered table-hover table" id="software">
                                 <thead class="" >

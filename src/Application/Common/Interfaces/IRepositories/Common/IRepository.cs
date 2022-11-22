@@ -17,7 +17,7 @@ namespace AssetManagement.Application.Common.Interfaces
         IEnumerable<T> All();
         T Get(Guid id);
         bool Add(T entity);
-        bool Remove(Guid id);
+        bool Remove(T entity);
         bool Upsert(T entity);
     }
 }

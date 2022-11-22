@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO.Enumeration;
 using System.Linq;
 using System.Threading.Tasks;
 using AssetManagement.Domain.Software;
@@ -11,6 +12,7 @@ namespace AssetManagement.Domain.System
     public class SystemEntity
     {
         public Guid Id { get; set; }
+        public SystemName Name { get; set; }
         public IpAddress Ip { get; set; }
         public MacAddress Mac { get; set; }
 
@@ -21,9 +23,18 @@ namespace AssetManagement.Domain.System
             
         }
 
-        public SystemEntity(IpAddress _Ip, MacAddress _Mac)
+        public SystemEntity(Guid _Id, SystemName _Name, IpAddress _Ip, MacAddress _Mac)
+        {
+            Id = _Id;
+            Name = _Name;
+            Ip = _Ip;
+            Mac = _Mac;
+        }
+
+        public SystemEntity(SystemName _Name, IpAddress _Ip, MacAddress _Mac)
         {
             Id = new Guid();
+            Name = _Name;
             Ip = _Ip;
             Mac = _Mac;
         }

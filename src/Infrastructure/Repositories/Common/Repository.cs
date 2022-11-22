@@ -46,9 +46,10 @@ namespace AssetManagement.Infrastructure.Repositories
             return dbSet.Find(id);
         }
 
-        public virtual bool Remove(Guid id)
+        public virtual bool Remove(T entity)
         {
-            throw new NotImplementedException();
+           dbSet.Remove(entity);
+           return true;
         }
 
         public virtual bool Upsert(T entity)

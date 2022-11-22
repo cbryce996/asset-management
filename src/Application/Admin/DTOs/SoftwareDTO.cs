@@ -7,6 +7,7 @@ namespace AssetManagement.Application.Admin.DTOs
 {
     public class SoftwareDTO
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Version { get; set; }
         public string Manufacturer { get; set; }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
@@ -21,10 +22,53 @@ namespace AssetManagement.Application.Admin
             unitOfWork = _unitOfWork;
         }
 
+        public IEnumerable<SystemDTO> GetAllSystems()
+        {
+            IEnumerable<SystemEntity> systemEntities = unitOfWork.SystemRepository.All();
+            IList<SystemDTO> systemDTOs = new List<SystemDTO>();
+
+            foreach (SystemEntity system in systemEntities)
+            {
+                systemDTOs.Add(
+                    new SystemDTO() {
+                        Id = system.Id.ToString(),
+                        Name = system.Name.Name,
+                        IpAddress = system.Ip.Ip,
+                        MacAddress = system.Mac.Mac
+                    }
+                );
+            }
+
+            return systemDTOs;
+        }
+
+
+        // TODO: Fix ValueObject getters
+        public IEnumerable<SoftwareDTO> GetAllSoftware()
+        {
+            IEnumerable<SoftwareEntity> softwareEntities = unitOfWork.SoftwareRepository.All();
+            IList<SoftwareDTO> softwareDTOs = new List<SoftwareDTO>();
+
+            foreach (SoftwareEntity software in softwareEntities)
+            {
+                softwareDTOs.Add(
+                    new SoftwareDTO() {
+                        Id = software.Id.ToString(),
+                        Name = software.Name.Name,
+                        Version = software.Version.Version,
+                        Manufacturer = software.Manufacturer.Manufacturer
+                    }
+                );
+            }
+
+            return softwareDTOs;
+        }
+
         public void AddSystem(SystemDTO _system)
         {
             // Create new domain model
             SystemEntity system = new SystemEntity(
+                new SystemName(_system.Name),
                 new IpAddress(_system.IpAddress),
                 new MacAddress(_system.MacAddress)
             );
@@ -45,16 +89,34 @@ namespace AssetManagement.Application.Admin
                 new SoftwareManufacturer(_software.Manufacturer)
             );
 
-            try 
-            {
-                //SystemEntity system = unitOfWork.SystemRepository.Get(_system);
-                //system.AddSoftware(software);
-                unitOfWork.SoftwareRepository.Add(software);
-            } 
-            catch 
-            {
+            unitOfWork.SoftwareRepository.Add(software);
+            unitOfWork.Complete();
+        }
 
-            }
+        public void DeleteSoftware(SoftwareDTO _software)
+        {
+            SoftwareEntity software = new SoftwareEntity(
+                new Guid(_software.Id),
+                new SoftwareName(_software.Name),
+                new SoftwareVersion(_software.Version),
+                new SoftwareManufacturer(_software.Manufacturer)
+            );
+
+            unitOfWork.SoftwareRepository.Remove(software);
+            unitOfWork.Complete();
+        }
+
+        public void DeleteSystem(SystemDTO _system)
+        {
+            SystemEntity system = new SystemEntity(
+                new Guid(_system.Id),
+                new SystemName(_system.Name),
+                new IpAddress(_system.IpAddress),
+                new MacAddress(_system.MacAddress)
+            );
+
+            unitOfWork.SystemRepository.Remove(system);
+            unitOfWork.Complete();
         }
     }
 }

@@ -34,6 +34,7 @@ namespace AssetManagement.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder builder)
         {
             // Tell Entity Framework which Entities own each Value Objects
+            builder.Entity<SystemEntity>().OwnsOne(x => x.Name);
             builder.Entity<SystemEntity>().OwnsOne(x => x.Ip);
             builder.Entity<SystemEntity>().OwnsOne(x => x.Mac);
 

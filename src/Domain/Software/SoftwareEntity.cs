@@ -21,6 +21,14 @@ namespace AssetManagement.Domain.Software
             
         }
 
+         public SoftwareEntity(Guid _Id, SoftwareName _Name, SoftwareVersion _Version, SoftwareManufacturer _Manufacturer)
+        {
+            Id = _Id;
+            Name = _Name;
+            Version = _Version;
+            Manufacturer = _Manufacturer;
+        }
+
         public SoftwareEntity(SoftwareName _Name, SoftwareVersion _Version, SoftwareManufacturer _Manufacturer)
         {
             Id = new Guid();

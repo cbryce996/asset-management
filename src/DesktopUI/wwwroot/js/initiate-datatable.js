@@ -1,7 +1,6 @@
-// Initiate datatables in roles, tables, users page
-$(Document).ready(function() {
-    'use strict';
-    
+function initDatatable() {
+    console.log("test")
+
     $('#systems').DataTable({
         'pageLength': 20,
         'searching': true,
@@ -17,4 +16,4 @@ $(Document).ready(function() {
         'scrollX': true,
         'autoWidth' : false
     });
-})();
+};   

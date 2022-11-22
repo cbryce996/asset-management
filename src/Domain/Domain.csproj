@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>AssetManagement.Domain</RootNamespace>
-    <AssemblyName>AssetManagement.Domain</AssemblyName>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
