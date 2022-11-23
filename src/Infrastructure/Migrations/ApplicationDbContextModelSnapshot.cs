@@ -23,12 +23,12 @@ namespace AssetManagement.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("SystemEntityId")
+                    b.Property<Guid>("SystemId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SystemEntityId");
+                    b.HasIndex("SystemId");
 
                     b.ToTable("SoftwareTable");
                 });
@@ -46,9 +46,11 @@ namespace AssetManagement.Infrastructure.Migrations
 
             modelBuilder.Entity("AssetManagement.Domain.Software.SoftwareEntity", b =>
                 {
-                    b.HasOne("AssetManagement.Domain.System.SystemEntity", null)
+                    b.HasOne("AssetManagement.Domain.System.SystemEntity", "System")
                         .WithMany("InstalledSoftware")
-                        .HasForeignKey("SystemEntityId");
+                        .HasForeignKey("SystemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("AssetManagement.Domain.Software.ValueObjects.SoftwareManufacturer", "Manufacturer", b1 =>
                         {
@@ -106,6 +108,8 @@ namespace AssetManagement.Infrastructure.Migrations
 
                     b.Navigation("Name")
                         .IsRequired();
+
+                    b.Navigation("System");
 
                     b.Navigation("Version")
                         .IsRequired();

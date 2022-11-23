@@ -12,7 +12,7 @@ ViewData["Title"] = "Home Page";
                     </div>
                     <div class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <a class="btn btn-md btn-primary" asp-area="" asp-controller="Home" asp-action="NewSystem"><i class="fas fa-sm fa-plus"></i><span class="ms-2">New</span></a>
+                            <a class="btn btn-md btn-primary" asp-area="" asp-controller="Home" asp-action="AddNewSystem"><i class="fas fa-sm fa-plus"></i><span class="ms-2">New</span></a>
                             <a class="btn btn-md btn-secondary" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-sm fa-sync"></i></a>
                             <button href="roles.html" class="btn btn-md btn-secondary float-end"><span class="me-2">Filter by</span><i class="fas fa-sm fa-caret-down"></i></button>
                         </li>
@@ -30,15 +30,15 @@ ViewData["Title"] = "Home Page";
                                     @foreach(var system in Model.Systems)
                                     {
                                         <tr>
-                                            <td>@system.Name</td>
+                                            <td>@system.SystemName</td>
                                             <td>@system.IpAddress</td>
                                             <td>@system.MacAddress</td>
                                             <td>
                                                 <div class="float-end">
-                                                    <a href=@Url.Action("DeleteSystem", new { system.Id, system.Name, system.IpAddress, system.MacAddress}) class="btn btn-sm btn-danger"><i class="fas fa-sm fa-trash"></i></a>
-                                                    <a class="btn btn-sm btn-secondary" asp-area="" asp-controller="Home" asp-action="NewSystem"><i class="fas fa-sm fa-pen"></i></a>
-                                                    <a a href=@Url.Action("ViewSystem", new { system.Id, system.Name, system.IpAddress, system.MacAddress}) class="btn btn-sm btn-secondary"><i class="fas fa-sm fa-search"></i></a>
-                                                    <a href=@Url.Action("NewSoftware", new { system.Id, system.Name, system.IpAddress, system.MacAddress}) class="btn btn-sm btn-secondary"><i class="fas fa-sm fa-plus"></i></a>
+                                                    <a href=@Url.Action("DeleteSystem", system) class="btn btn-sm btn-danger"><i class="fas fa-sm fa-trash"></i></a>
+                                                    <a href=@Url.Action("EditSystemInformation", "Home", new { _systemId = system.SystemId }) class="btn btn-sm btn-secondary"><i class="fas fa-sm fa-pen"></i></a>
+                                                    <a href=@Url.Action("LookupSoftwareOnSystem", "Home", new { _systemId = system.SystemId}) class="btn btn-sm btn-secondary"><i class="fas fa-sm fa-search"></i></a>
+                                                    <a href=@Url.Action("AddSoftwareToSystem", "Home", new { _systemId = system.SystemId }) class="btn btn-sm btn-secondary"><i class="fas fa-sm fa-plus"></i></a>
                                                 </div>  
                                             </td>
                                         </tr>

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AssetManagement.DesktopUI.Models
 {
-    public class ViewSystemViewModel
+    public class LookupSoftwareOnSystemViewModel
     {
         public SystemViewModel System { get; set; }
         public IEnumerable<SoftwareViewModel> Software { get; set; }

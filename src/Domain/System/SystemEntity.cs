@@ -16,7 +16,7 @@ namespace AssetManagement.Domain.System
         public IpAddress Ip { get; set; }
         public MacAddress Mac { get; set; }
 
-        public IEnumerable<SoftwareEntity> InstalledSoftware { get; set; }
+        public IList<SoftwareEntity> InstalledSoftware { get; set; }
 
         public SystemEntity()
         {
@@ -29,6 +29,7 @@ namespace AssetManagement.Domain.System
             Name = _Name;
             Ip = _Ip;
             Mac = _Mac;
+            InstalledSoftware = new List<SoftwareEntity>();
         }
 
         public SystemEntity(SystemName _Name, IpAddress _Ip, MacAddress _Mac)
@@ -37,11 +38,12 @@ namespace AssetManagement.Domain.System
             Name = _Name;
             Ip = _Ip;
             Mac = _Mac;
+            InstalledSoftware = new List<SoftwareEntity>();
         }
 
         public void AddSoftware(SoftwareEntity _Software)
         {
-            InstalledSoftware.Append<SoftwareEntity>(_Software);
+            InstalledSoftware.Add(_Software);
         }
     }
 }

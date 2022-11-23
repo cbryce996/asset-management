@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 using AssetManagement.Application.Admin;
 using AssetManagement.Application.Admin.DTOs;
 using AssetManagement.DesktopUI.Models;
+using AssetManagement.Domain.Software;
 using AutoMapper;
+using Microsoft.AspNetCore.Builder.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -39,8 +41,8 @@ namespace AssetManagement.DesktopUI.Controllers
             {
                 model.Software.Add(
                     new SoftwareViewModel() {
-                        Id = software.Id,
-                        Name = software.Name,
+                        SoftwareId = software.Id,
+                        SoftwareName = software.Name,
                         Version = software.Version,
                         Manufacturer = software.Manufacturer
                     }
@@ -51,8 +53,8 @@ namespace AssetManagement.DesktopUI.Controllers
             {
                 model.Systems.Add(
                     new SystemViewModel() {
-                        Id = system.Id,
-                        Name = system.Name,
+                        SystemId = system.Id,
+                        SystemName = system.Name,
                         IpAddress = system.IpAddress,
                         MacAddress = system.MacAddress
                     }
@@ -63,18 +65,121 @@ namespace AssetManagement.DesktopUI.Controllers
             return View(model);
         }
 
-        public IActionResult ViewSystem(SystemViewModel _system)
+        [HttpGet]
+        public SoftwareViewModel Software(string _softwareId)
         {
-            ViewSystemViewModel viewSystem = new ViewSystemViewModel();
-            viewSystem.System = _system;
-            return View(viewSystem);
+            SoftwareDTO softwareDTO = new SoftwareDTO(); //adminServices.GetSoftwareById(_softwareId);
+            
+            return new SoftwareViewModel() {
+                SoftwareId = softwareDTO.Id,
+                SoftwareName = softwareDTO.Name,
+                Version = softwareDTO.Version,
+                Manufacturer = softwareDTO.Manufacturer
+            };
         }
 
-        public IActionResult NewSoftware(SystemViewModel _system)
+        [HttpPost]
+        public SoftwareDTO Software(SoftwareViewModel _software, string _systemId)
         {
-            NewSoftwareViewModel newSoftware = new NewSoftwareViewModel();
-            newSoftware.System = _system;
-            return View(newSoftware);
+            return adminServices.AddSoftwareToSystem(new SoftwareDTO() {
+                Id = _software.SoftwareId,
+                Name = _software.SoftwareName,
+                Version = _software.Version,
+                Manufacturer = _software.Manufacturer
+            }, _systemId);
+        }
+
+        [HttpGet]
+        public SystemViewModel System(string _systemId)
+        {
+            SystemDTO systemDTO = adminServices.GetSystemById(_systemId);
+            
+            return new SystemViewModel() {
+                SystemId = systemDTO.Id,
+                SystemName = systemDTO.Name,
+                IpAddress = systemDTO.IpAddress,
+                MacAddress = systemDTO.MacAddress
+            };
+        }
+
+        [HttpPost]
+        public SystemDTO System(SystemViewModel _system)
+        {
+            return adminServices.AddSystem(new SystemDTO() {
+                Id = _system.SystemId,
+                Name = _system.SystemName,
+                IpAddress = _system.IpAddress,
+                MacAddress = _system.MacAddress
+            });
+        }
+
+        [HttpGet]
+        public IActionResult AddNewSystem()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddNewSystem(SystemViewModel _system)
+        {
+            if (ModelState.IsValid)
+            {
+                System(_system);
+                return RedirectToAction("Index");
+            }
+            return View(_system);
+        }
+
+        [HttpGet]
+        public IActionResult AddSoftwareToSystem(string _systemId)
+        {
+            AddSoftwareToSystemViewModel addSoftwareToSystem = new AddSoftwareToSystemViewModel() {
+                System = System(_systemId),
+                Software = new SoftwareViewModel()
+            };
+
+            return View(addSoftwareToSystem);
+        }
+
+        [HttpPost]
+        public IActionResult AddSoftwareToSystem(AddSoftwareToSystemViewModel addSoftwareToSystem)
+        {
+            if (ModelState.IsValid)
+            {
+                Software(addSoftwareToSystem.Software, addSoftwareToSystem.System.SystemId);
+                return RedirectToAction("Index");
+            }
+            return View(addSoftwareToSystem);
+        }
+
+        [HttpGet]
+        public IActionResult LookupSoftwareOnSystem(string _systemId)
+        {
+            IList<SoftwareDTO> softwareEntities = adminServices.GetSoftwareOnSystem(_systemId);
+            IList<SoftwareViewModel> softwareViewModels = new List<SoftwareViewModel>();
+
+            foreach (var software in softwareEntities)
+            {
+                softwareViewModels.Add(
+                    new SoftwareViewModel() {
+                        SoftwareId = software.Id,
+                        SoftwareName = software.Name,
+                        Version = software.Version,
+                        Manufacturer = software.Manufacturer
+                });
+            }
+
+            LookupSoftwareOnSystemViewModel lookupSoftwareOnSystem = new LookupSoftwareOnSystemViewModel() {
+                System = System(_systemId),
+                Software = softwareViewModels
+            };
+            return View(lookupSoftwareOnSystem);
+        }
+
+        [HttpGet]
+        public IActionResult EditSystemInformation(string _systemId)
+        {
+            return View(System(_systemId));
         }
 
         public IActionResult NewSystem()
@@ -82,33 +187,16 @@ namespace AssetManagement.DesktopUI.Controllers
             return View();
         }
 
-        public IActionResult AddSoftware(SoftwareViewModel _software)
+        public IActionResult EditSystem(SystemViewModel _system)
         {
-            SoftwareDTO software = new SoftwareDTO() {
-                Name = _software.Name,
-                Version = _software.Version,
-                Manufacturer = _software.Manufacturer
-            };
-            adminServices.AddSoftware(software);
-            return RedirectToAction("Index");
-        }
-
-        public IActionResult AddSystem(SystemViewModel _system)
-        {
-            SystemDTO system = new SystemDTO() {
-                Name = _system.Name,
-                IpAddress = _system.IpAddress,
-                MacAddress = _system.MacAddress
-            };
-            adminServices.AddSystem(system);
-            return RedirectToAction("Index");
+            return View(_system);
         }
 
         public IActionResult DeleteSoftware(SoftwareViewModel _software)
         {
             SoftwareDTO software = new SoftwareDTO() {
-                Id = _software.Id,
-                Name = _software.Name,
+                Id = _software.SoftwareId,
+                Name = _software.SoftwareName,
                 Version = _software.Version,
                 Manufacturer = _software.Manufacturer
             };
@@ -119,8 +207,8 @@ namespace AssetManagement.DesktopUI.Controllers
         public IActionResult DeleteSystem(SystemViewModel _system)
         {
             SystemDTO system = new SystemDTO() {
-                Id = _system.Id,
-                Name = _system.Name,
+                Id = _system.SystemId,
+                Name = _system.SystemName,
                 IpAddress = _system.IpAddress,
                 MacAddress = _system.MacAddress
             };

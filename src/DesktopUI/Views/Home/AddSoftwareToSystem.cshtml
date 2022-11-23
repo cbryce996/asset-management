@@ -1,8 +1,8 @@
-@model AssetManagement.DesktopUI.Models.NewSoftwareViewModel;
+@model AssetManagement.DesktopUI.Models.AddSoftwareToSystemViewModel;
 @{
 ViewData["Title"] = "Home Page";
 }
-@using(Html.BeginForm("AddSoftware", "Home", FormMethod.Post))
+@using(Html.BeginForm("AddSoftwareToSystem", "Home", FormMethod.Post))
 {
 <div class="content my-3 p-0">
     <div class="container">
@@ -16,26 +16,22 @@ ViewData["Title"] = "Home Page";
                         <div class="list-group-item">
                             <div class="row g-2 mb-2">
                                 <div class="col-md-6 form-group">
-                                    <fieldset disabled>
-                                    @Html.LabelFor(m => m.System.Name, "Name", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.System.Name, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.System.Name, "", new { @class = "text-danger" })
-                                    </fieldset>
+                                    @Html.TextBoxFor(m => m.System.SystemId, new { @class = "form-control", @type = "hidden"})
+                                    @Html.TextBoxFor(m => m.System.SystemName, new { @class = "form-control", @type = "hidden"})
+                                    @Html.LabelFor(m => m.System.SystemName, "Name", new { @class = "form-label"})
+                                    @Html.TextBoxFor(m => m.System.SystemName, new { @class = "form-control", @disabled="true"})
                                 </div>
                                 <div class="col-md-6">
-                                    <fieldset disabled>
+                                    @Html.TextBoxFor(m => m.System.IpAddress, new { @class = "form-control", @type = "hidden"})
                                     @Html.LabelFor(m => m.System.IpAddress, "IP Address", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.System.IpAddress, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.System.IpAddress, "", new { @class = "text-danger" })
-                                    </fieldset>
+                                    @Html.TextBoxFor(m => m.System.IpAddress, new { @class = "form-control", @disabled="true"})
                                 </div>
                                 <div class="col-md-6">
-                                    <fieldset disabled>
+                                    @Html.TextBoxFor(m => m.System.MacAddress, new { @class = "form-control", @type = "hidden"})
                                     @Html.LabelFor(m => m.System.MacAddress, "MAC Address", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.System.MacAddress, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.System.MacAddress, "", new { @class = "text-danger" })
-                                    </fieldset>
+                                    @Html.TextBoxFor(m => m.System.MacAddress, new { @class = "form-control", @disabled="true"})
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -52,9 +48,9 @@ ViewData["Title"] = "Home Page";
                         <div class="list-group-item">
                             <div class="row g-2 mb-2">
                                 <div class="col-md-6 form-group">
-                                    @Html.LabelFor(m => m.Software.Name, "Name", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.Software.Name, new { @class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.Software.Name, "", new { @class = "text-danger" })
+                                    @Html.LabelFor(m => m.Software.SoftwareName, "Name", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.Software.SoftwareName, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.Software.SoftwareName, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-6">
                                     @Html.LabelFor(m => m.Software.Version, "Version", new { @class = "form-label" })

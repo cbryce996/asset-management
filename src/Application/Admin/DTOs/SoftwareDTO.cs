@@ -11,5 +11,6 @@ namespace AssetManagement.Application.Admin.DTOs
         public string Name { get; set; }
         public string Version { get; set; }
         public string Manufacturer { get; set; }
+        public string SystemId { get; set; }
     }
 }
