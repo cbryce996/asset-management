@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
+using System.Management;
 using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
 using AssetManagement.Application.Admin;
@@ -16,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
 
 namespace AssetManagement.DesktopUI.Controllers
 {
@@ -180,6 +182,36 @@ namespace AssetManagement.DesktopUI.Controllers
         public IActionResult EditSystemInformation(string _systemId)
         {
             return View(System(_systemId));
+        }
+
+        [HttpGet]
+        public IActionResult AutoGetSoftwareOnSystem(string _systemId)
+        {
+            string registry_key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
+            using(Microsoft.Win32.RegistryKey key = Registry.LocalMachine.OpenSubKey(registry_key))
+            {
+                foreach(string subkey_name in key.GetSubKeyNames())
+                {
+                    using(RegistryKey subkey = key.OpenSubKey(subkey_name))
+                    {
+                        if (
+                            subkey.GetValue("DisplayName") != null &&
+                            subkey.GetValue("DisplayVersion") != null &&
+                            subkey.GetValue("Publisher")  != null
+                        )
+                        {
+                            SoftwareViewModel software = new SoftwareViewModel() {
+                                SoftwareName = (string)subkey.GetValue("DisplayName"),
+                                Version = (string)subkey.GetValue("DisplayVersion"),
+                                Manufacturer = (string)subkey.GetValue("Publisher")
+                            };
+
+                            Software(software, _systemId);
+                        }
+                    }
+                }
+            }
+            return View("LookupSoftwareOnSystem", _systemId);
         }
 
         public IActionResult NewSystem()
