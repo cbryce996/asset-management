@@ -51,26 +51,35 @@ ViewData["Title"] = "Home Page";
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <a href=@Url.Action("NewSoftware", new { Model.System.SystemId, Model.System.SystemName, Model.System.IpAddress, Model.System.MacAddress}) class="btn btn-md btn-primary"><i class="fas fa-sm fa-plus"></i><span class="ms-2">New</span></a>
-                            <a href=@Url.Action("GetSoftwareOnSystem", "Home") class="btn btn-md btn-secondary"><i class="fas fa-sm fa-sync"></i></a>
-                            <a href=@Url.Action("AutoGetSoftwareOnSystem", "Home", new { _systemId = Model.System.SystemId}) class="btn btn-md btn-secondary float-end"><span>Auto Get</span></i></a>
+                            <a href=@Url.Action("NewSoftware", "Home", new { Model.System.SystemId, Model.System.SystemName, Model.System.IpAddress, Model.System.MacAddress }) class="btn btn-md btn-primary"><i class="fas fa-sm fa-plus"></i><span class="ms-2">New</span></a>
+                            <a href=@Url.Action("LookupSoftwareOnSystem", "Home", new { _systemId = Model.System.SystemId }) class="btn btn-md btn-secondary"><i class="fas fa-sm fa-sync"></i></a>
+                            <div class="float-end">
+                                <a href=@Url.Action("AutoGetSoftwareOnSystem", "Home", new { _systemId = Model.System.SystemId }) class="btn btn-md btn-secondary"><span>Auto Get</span></i></a>
+                            </div>
                         </li>
                         <li class="list-group-item">
-                            <table width="100%" class="table table-bordered table-hover table" id="software">
+                            <table width="100%" class="table table-bordered table-hover" id="software"">
                                 <thead class="" >
                                     <tr>
                                         <th>Name</th>
                                         <th>Version</th>
                                         <th>Manufacturer</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                      @foreach(var software in Model.Software)
                                     {
                                         <tr>
-                                            <td>@software.SoftwareName</td>
+                                            <td>@software.Name</td>
                                             <td>@software.Version</td>
                                             <td>@software.Manufacturer</td>
+                                            <td>
+                                                <div class="float-end">
+                                                    <a href=@Url.Action("CheckVulnerabilityOfSoftware", software) class="btn btn-sm btn-primary"><i class="fas fa-sm fa-search"></i></a>
+                                                    <a href=@Url.Action("DeleteSystem", Model.System) class="btn btn-sm btn-danger"><i class="fas fa-sm fa-trash"></i></a>
+                                                </div>  
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>

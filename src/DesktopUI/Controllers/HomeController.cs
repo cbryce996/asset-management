@@ -3,21 +3,31 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Linq;
+using System.Drawing;
 using System.Management;
 using System.Reflection.PortableExecutable;
+using System.Text.Encodings.Web;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Web;
 using AssetManagement.Application.Admin;
 using AssetManagement.Application.Admin.DTOs;
 using AssetManagement.DesktopUI.Models;
-using AssetManagement.Domain.Software;
+using AssetManagement.Domain.System.ValueObjects;
 using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Builder.Extensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using RestSharp;
+using RestSharp.Serializers.Json;
 
 namespace AssetManagement.DesktopUI.Controllers
 {
@@ -36,20 +46,7 @@ namespace AssetManagement.DesktopUI.Controllers
         public IActionResult Index()
         {
             IndexViewModel model = new IndexViewModel();
-            IEnumerable<SoftwareDTO> softwareDTOs = adminServices.GetAllSoftware();
             IEnumerable<SystemDTO> systemDTOs = adminServices.GetAllSystems();
-            
-            foreach (var software in softwareDTOs)
-            {
-                model.Software.Add(
-                    new SoftwareViewModel() {
-                        SoftwareId = software.Id,
-                        SoftwareName = software.Name,
-                        Version = software.Version,
-                        Manufacturer = software.Manufacturer
-                    }
-                );
-            }
 
             foreach (var system in systemDTOs)
             {
@@ -73,19 +70,34 @@ namespace AssetManagement.DesktopUI.Controllers
             SoftwareDTO softwareDTO = new SoftwareDTO(); //adminServices.GetSoftwareById(_softwareId);
             
             return new SoftwareViewModel() {
-                SoftwareId = softwareDTO.Id,
-                SoftwareName = softwareDTO.Name,
+                Name = softwareDTO.Name,
                 Version = softwareDTO.Version,
                 Manufacturer = softwareDTO.Manufacturer
             };
         }
 
         [HttpPost]
+        public IList<SoftwareDTO> Software(IList<SoftwareViewModel> _softwareViewModels, string _systemId)
+        {
+            IList<SoftwareDTO> softwareDTOs = new List<SoftwareDTO>();
+
+            foreach (var software in _softwareViewModels)
+            {
+                softwareDTOs.Add( new SoftwareDTO() {
+                    Name = software.Name,
+                    Version = software.Version,
+                    Manufacturer = software.Manufacturer
+            });
+            }
+
+            return adminServices.AddMultipleSoftwareToSystem(softwareDTOs, _systemId);
+        }
+
+        [HttpPost]
         public SoftwareDTO Software(SoftwareViewModel _software, string _systemId)
         {
             return adminServices.AddSoftwareToSystem(new SoftwareDTO() {
-                Id = _software.SoftwareId,
-                Name = _software.SoftwareName,
+                Name = _software.Name,
                 Version = _software.Version,
                 Manufacturer = _software.Manufacturer
             }, _systemId);
@@ -108,7 +120,6 @@ namespace AssetManagement.DesktopUI.Controllers
         public SystemDTO System(SystemViewModel _system)
         {
             return adminServices.AddSystem(new SystemDTO() {
-                Id = _system.SystemId,
                 Name = _system.SystemName,
                 IpAddress = _system.IpAddress,
                 MacAddress = _system.MacAddress
@@ -164,8 +175,7 @@ namespace AssetManagement.DesktopUI.Controllers
             {
                 softwareViewModels.Add(
                     new SoftwareViewModel() {
-                        SoftwareId = software.Id,
-                        SoftwareName = software.Name,
+                        Name = software.Name,
                         Version = software.Version,
                         Manufacturer = software.Manufacturer
                 });
@@ -179,6 +189,44 @@ namespace AssetManagement.DesktopUI.Controllers
         }
 
         [HttpGet]
+        public IActionResult CheckVulnerabilityOfSoftware(SoftwareViewModel _software)
+        {
+            using (RestClient client = new RestClient("https://services.nvd.nist.gov/rest/json/cves/2.0"))
+            {
+                    client.UseSystemTextJson();
+                    RestRequest request = new RestRequest();
+/*
+                    request.AddParameter("keywordSearch",
+                        HttpUtility.UrlPathEncode(_software.Version.ToLower().Replace(" ", "_")) + " " +
+                        HttpUtility.UrlPathEncode(_software.Name.ToLower().Replace(" ", "_"))
+                    );
+*/
+                    
+                    request.AddParameter("keywordSearch",
+                        HttpUtility.UrlPathEncode(_software.Name).ToLower().Replace(" ", "_") + " " +
+                        HttpUtility.UrlPathEncode(_software.Version).ToLower().Replace(" ", "_")
+                    );
+                    
+
+                    try
+                    {
+                        var response = client.ExecuteAsync(request).Result;
+                        var deserialized = JsonConvert.DeserializeObject<dynamic>(response.Content);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    };
+            }
+
+            CheckVulnerabilityOfSoftwareViewModel checkVulnerability = new CheckVulnerabilityOfSoftwareViewModel() {
+                Software = _software
+            };
+
+            return View(checkVulnerability);
+        }
+
+        [HttpGet]
         public IActionResult EditSystemInformation(string _systemId)
         {
             return View(System(_systemId));
@@ -187,6 +235,8 @@ namespace AssetManagement.DesktopUI.Controllers
         [HttpGet]
         public IActionResult AutoGetSoftwareOnSystem(string _systemId)
         {
+            IList<SoftwareViewModel> softwareViewModels = new List<SoftwareViewModel>();
+
             string registry_key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
             using(Microsoft.Win32.RegistryKey key = Registry.LocalMachine.OpenSubKey(registry_key))
             {
@@ -200,18 +250,17 @@ namespace AssetManagement.DesktopUI.Controllers
                             subkey.GetValue("Publisher")  != null
                         )
                         {
-                            SoftwareViewModel software = new SoftwareViewModel() {
-                                SoftwareName = (string)subkey.GetValue("DisplayName"),
+                            softwareViewModels.Add( new SoftwareViewModel() {
+                                Name = (string)subkey.GetValue("DisplayName"),
                                 Version = (string)subkey.GetValue("DisplayVersion"),
                                 Manufacturer = (string)subkey.GetValue("Publisher")
-                            };
-
-                            Software(software, _systemId);
+                            });
                         }
                     }
                 }
             }
-            return View("LookupSoftwareOnSystem", _systemId);
+            Software(softwareViewModels, _systemId);
+            return RedirectToAction("LookupSoftwareOnSystem", "Home", new { _systemId = _systemId });
         }
 
         public IActionResult NewSystem()
@@ -227,8 +276,7 @@ namespace AssetManagement.DesktopUI.Controllers
         public IActionResult DeleteSoftware(SoftwareViewModel _software)
         {
             SoftwareDTO software = new SoftwareDTO() {
-                Id = _software.SoftwareId,
-                Name = _software.SoftwareName,
+                Name = _software.Name,
                 Version = _software.Version,
                 Manufacturer = _software.Manufacturer
             };

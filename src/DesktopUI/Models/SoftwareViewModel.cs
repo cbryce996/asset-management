@@ -8,9 +8,8 @@ namespace AssetManagement.DesktopUI.Models
 {
     public class SoftwareViewModel
     {
-        public string SoftwareId { get; set; }
         [Required(ErrorMessage = "Name is required")]
-        public string SoftwareName { get; set; }
+        public string Name { get; set; }
         [Required(ErrorMessage = "Version is required")]
         public string Version { get; set; }
         [Required(ErrorMessage = "Manufacturer is required")]
