@@ -14,5 +14,16 @@ namespace AssetManagement.Infrastructure.Repositories
         public SystemRepository(ApplicationDbContext _context, ILogger _logger) : base(_context, _logger)
         {
         }
+
+        public bool Update(SystemEntity _system)
+        {
+            if (dbSet.Any(x => x.Id == _system.Id))
+            {
+                dbSet.Update(_system);
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -5,16 +5,16 @@
 */
 
 using System;
+using System.Threading.Tasks;
 using AssetManagement.Application.Common.Interfaces.IRepositories;
 
 namespace AssetManagement.Application.Common.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        ISoftwareRepository SoftwareRepository { get; set; }
         ISystemRepository SystemRepository { get; set; }
 
         // Sends changes to database
-        void Complete();
+        Task<bool> Complete();
     }
 }

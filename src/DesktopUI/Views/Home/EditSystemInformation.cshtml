@@ -1,6 +1,6 @@
 @model AssetManagement.DesktopUI.Models.SystemViewModel;
 
-@using(Html.BeginForm("AddSystem", "Home", FormMethod.Post))
+@using(Html.BeginForm("EditSystemInformation", "Home", FormMethod.Post))
 {
 <div class="content my-3 p-0">
     <div class="container">
@@ -14,6 +14,7 @@
                         <div class="list-group-item">
                             <div class="row g-2 mb-2">
                                 <div class="col-md-6 form-group">
+                                    @Html.TextBoxFor(m => m.SystemId, new { @class = "form-control", @type = "hidden"})
                                     @Html.LabelFor(m => m.SystemName, "Name", new { @class = "form-label" })
                                     @Html.TextBoxFor(m => m.SystemName, new { @class = "form-control"})
                                     @Html.ValidationMessageFor(m => m.SystemName, "", new { @class = "text-danger" })

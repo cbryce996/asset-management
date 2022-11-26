@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Common;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Xml;
 using AssetManagement.Application.Admin.DTOs;
 using AssetManagement.Application.Common.Interfaces;
-using AssetManagement.Domain.Software;
-using AssetManagement.Domain.Software.ValueObjects;
 using AssetManagement.Domain.System;
 using AssetManagement.Domain.System.ValueObjects;
 
@@ -22,11 +23,20 @@ namespace AssetManagement.Application.Admin
             unitOfWork = _unitOfWork;
         }
 
-        public IEnumerable<SystemDTO> GetAllSystems()
+        public async Task<IEnumerable<SystemDTO>> GetAllSystems()
         {
-            IEnumerable<SystemEntity> systemEntities = unitOfWork.SystemRepository.All();
+            // Create lists for Domain Models and DTOs
+            IList<SystemEntity> systemEntities = new List<SystemEntity>();
             IList<SystemDTO> systemDTOs = new List<SystemDTO>();
 
+            // Async get systems from repository
+            await foreach (SystemEntity system in unitOfWork.SystemRepository.All())
+            {
+                systemEntities.Add(system);
+            }
+
+
+            // Map system entities to DTOs
             foreach (SystemEntity system in systemEntities)
             {
                 systemDTOs.Add(
@@ -42,50 +52,9 @@ namespace AssetManagement.Application.Admin
             return systemDTOs;
         }
 
-
-        // TODO: Fix ValueObject getters
-        public IEnumerable<SoftwareDTO> GetAllSoftware()
+        public async Task<SystemDTO> GetSystemById(string _systemId)
         {
-            IEnumerable<SoftwareEntity> softwareEntities = unitOfWork.SoftwareRepository.All();
-            IList<SoftwareDTO> softwareDTOs = new List<SoftwareDTO>();
-
-            foreach (SoftwareEntity software in softwareEntities)
-            {
-                softwareDTOs.Add(
-                    new SoftwareDTO() {
-                        Id = software.Id.ToString(),
-                        Name = software.Name.Name,
-                        Version = software.Version.Version,
-                        Manufacturer = software.Manufacturer.Manufacturer
-                    }
-                );
-            }
-
-            return softwareDTOs;
-        }
-
-        public IList<SoftwareDTO> GetSoftwareOnSystem(string _systemId)
-        {
-            IEnumerable<SoftwareEntity> softwareEntities = unitOfWork.SoftwareRepository.All();
-            IList<SoftwareDTO> softwareDTOs = new List<SoftwareDTO>();
-            foreach (var software in softwareEntities)
-            {
-                if (software.SystemId.ToString() == _systemId)
-                {
-                    softwareDTOs.Add(new SoftwareDTO() {
-                        Id = software.Id.ToString(),
-                        Name = software.Name.Name,
-                        Version = software.Version.Version,
-                        Manufacturer = software.Manufacturer.Manufacturer
-                    });
-                }
-            }
-            return softwareDTOs;
-        }
-
-        public SystemDTO GetSystemById(string _systemId)
-        {
-            SystemEntity system = unitOfWork.SystemRepository.Get(new Guid(_systemId));
+            SystemEntity system = await unitOfWork.SystemRepository.Get(new Guid(_systemId));
             SystemDTO systemDTO = new SystemDTO() {
                 Id = system.Id.ToString(),
                 Name = system.Name.Name,
@@ -96,7 +65,7 @@ namespace AssetManagement.Application.Admin
             return systemDTO;
         }
 
-        public SystemDTO AddSystem(SystemDTO _system)
+        public async  Task<SystemDTO> AddSystem(SystemDTO _system)
         {
             // Create new domain model
             SystemEntity system = new SystemEntity(
@@ -106,56 +75,103 @@ namespace AssetManagement.Application.Admin
             );
             
             // Add changes to repository
-            unitOfWork.SystemRepository.Add(system);
+            await unitOfWork.SystemRepository.Add(system);
 
             // Complete changes
-            unitOfWork.Complete();
+            await unitOfWork.Complete();
 
             return _system;
         }
 
-        public SoftwareDTO AddSoftwareToSystem(SoftwareDTO _software, string _systemId)
+        public async Task<SoftwareDTO> AddSoftwareToSystem(SoftwareDTO _software, string _systemId)
         {
-            // Create new domain model
-            SoftwareEntity software = new SoftwareEntity(
-                new SoftwareName(_software.Name),
-                new SoftwareVersion(_software.Version),
-                new SoftwareManufacturer(_software.Manufacturer),
-                new Guid(_systemId)
-            );
+            SystemEntity system = await unitOfWork.SystemRepository.Get(new Guid(_systemId));
+            
+            system.AddSoftware(
+                Software.Create(
+                    _software.Name,
+                    _software.Version,
+                    _software.Manufacturer
+                    )
+                );
 
-            unitOfWork.SoftwareRepository.Add(software);
-            unitOfWork.Complete();
+            await unitOfWork.Complete();
 
             return _software;
         }
 
-        public void DeleteSoftware(SoftwareDTO _software)
+        public async Task<IList<SoftwareDTO>> AddMultipleSoftwareToSystem(IList<SoftwareDTO> _softwareDTOs, string _systemId)
         {
-            /*
-            SoftwareEntity software = new SoftwareEntity(
-                new Guid(_software.Id),
-                new SoftwareName(_software.Name),
-                new SoftwareVersion(_software.Version),
-                new SoftwareManufacturer(_software.Manufacturer)
-            );
+            SystemEntity system = await unitOfWork.SystemRepository.Get(new Guid(_systemId));
 
-            unitOfWork.SoftwareRepository.Remove(software);
-            unitOfWork.Complete();
-            */
+            foreach (var software in _softwareDTOs)
+            {
+                system.AddSoftware(
+                Software.Create(
+                    software.Name,
+                    software.Version,
+                    software.Manufacturer
+                    )
+                );
+            }
+
+            await unitOfWork.Complete();
+             
+            return _softwareDTOs;
         }
 
-        public void DeleteSystem(SystemDTO _system)
+        public async Task<IList<SoftwareDTO>> GetSoftwareOnSystem(string _systemId)
         {
-            SystemEntity system = new SystemEntity(
-                new Guid(_system.Id),
-                new SystemName(_system.Name),
-                new IpAddress(_system.IpAddress),
-                new MacAddress(_system.MacAddress)
+            SystemEntity system = await unitOfWork.SystemRepository.Get(new Guid(_systemId));
+            IList<SoftwareDTO> softwareDTOs = new List<SoftwareDTO>();
+
+            foreach (var software in system.InstalledSoftware)
+            {
+                softwareDTOs.Add(
+                    new SoftwareDTO() {
+                        Name = software.Name,
+                        Version = software.Version,
+                        Manufacturer = software.Manufacturer
+                    }
+                );
+            }
+
+            return softwareDTOs;
+        }
+
+        public async Task DeleteSoftware(SoftwareDTO _software, string _systemId)
+        {
+            SystemEntity system = await unitOfWork.SystemRepository.Get(new Guid(_systemId));
+
+            Software software = Software.Create(
+                _software.Name, _software.Version, _software.Manufacturer
             );
 
+            system.RemoveSoftware(software);
+            unitOfWork.SystemRepository.Update(system);
+            await unitOfWork.Complete();
+        }
+
+        public async Task<SystemDTO> EditSystemInformation(SystemDTO _system, string _systemId)
+        {
+            SystemEntity system = await unitOfWork.SystemRepository.Get(new Guid(_systemId));
+
+            system.Ip = new IpAddress(_system.IpAddress);
+            system.Mac = new MacAddress(_system.MacAddress);
+            system.Name = new SystemName(_system.Name);
+
+            unitOfWork.SystemRepository.Update(system);
+            await unitOfWork.Complete();
+
+            return _system;
+        }
+
+        public async Task<bool> DeleteSystem(string _systemId)
+        {
+            SystemEntity system = await unitOfWork.SystemRepository.Get(new Guid(_systemId));
+
             unitOfWork.SystemRepository.Remove(system);
-            unitOfWork.Complete();
+            return await unitOfWork.Complete();
         }
     }
 }

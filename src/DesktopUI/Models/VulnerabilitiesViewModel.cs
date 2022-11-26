@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace AssetManagement.DesktopUI.Models
 {
-    public class VulnerabilityResultViewModel
+    public class VulnerabilitiesViewModel
     {
-        public int MyProperty { get; set; }
+        public CveViewModel cve { get; set; }
     }
 }

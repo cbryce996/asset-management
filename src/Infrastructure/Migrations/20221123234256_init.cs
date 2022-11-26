@@ -1,9 +1,10 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AssetManagement.Infrastructure.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,40 +30,36 @@ namespace AssetManagement.Infrastructure.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "SoftwareTable",
+                name: "Software",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name_Name = table.Column<string>(type: "longtext", nullable: false)
+                    SystemEntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Version_Version = table.Column<string>(type: "longtext", nullable: false)
+                    Version = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Manufacturer_Manufacturer = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    SystemId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    Manufacturer = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SoftwareTable", x => x.Id);
+                    table.PrimaryKey("PK_Software", x => new { x.SystemEntityId, x.Id });
                     table.ForeignKey(
-                        name: "FK_SoftwareTable_SystemTable_SystemId",
-                        column: x => x.SystemId,
+                        name: "FK_Software_SystemTable_SystemEntityId",
+                        column: x => x.SystemEntityId,
                         principalTable: "SystemTable",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SoftwareTable_SystemId",
-                table: "SoftwareTable",
-                column: "SystemId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "SoftwareTable");
+                name: "Software");
 
             migrationBuilder.DropTable(
                 name: "SystemTable");

@@ -17,22 +17,6 @@ namespace AssetManagement.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.5");
 
-            modelBuilder.Entity("AssetManagement.Domain.Software.SoftwareEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("SystemId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SystemId");
-
-                    b.ToTable("SoftwareTable");
-                });
-
             modelBuilder.Entity("AssetManagement.Domain.System.SystemEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -42,77 +26,6 @@ namespace AssetManagement.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SystemTable");
-                });
-
-            modelBuilder.Entity("AssetManagement.Domain.Software.SoftwareEntity", b =>
-                {
-                    b.HasOne("AssetManagement.Domain.System.SystemEntity", "System")
-                        .WithMany("InstalledSoftware")
-                        .HasForeignKey("SystemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.OwnsOne("AssetManagement.Domain.Software.ValueObjects.SoftwareManufacturer", "Manufacturer", b1 =>
-                        {
-                            b1.Property<Guid>("SoftwareEntityId")
-                                .HasColumnType("char(36)");
-
-                            b1.Property<string>("Manufacturer")
-                                .IsRequired()
-                                .HasColumnType("longtext");
-
-                            b1.HasKey("SoftwareEntityId");
-
-                            b1.ToTable("SoftwareTable");
-
-                            b1.WithOwner()
-                                .HasForeignKey("SoftwareEntityId");
-                        });
-
-                    b.OwnsOne("AssetManagement.Domain.Software.ValueObjects.SoftwareName", "Name", b1 =>
-                        {
-                            b1.Property<Guid>("SoftwareEntityId")
-                                .HasColumnType("char(36)");
-
-                            b1.Property<string>("Name")
-                                .IsRequired()
-                                .HasColumnType("longtext");
-
-                            b1.HasKey("SoftwareEntityId");
-
-                            b1.ToTable("SoftwareTable");
-
-                            b1.WithOwner()
-                                .HasForeignKey("SoftwareEntityId");
-                        });
-
-                    b.OwnsOne("AssetManagement.Domain.Software.ValueObjects.SoftwareVersion", "Version", b1 =>
-                        {
-                            b1.Property<Guid>("SoftwareEntityId")
-                                .HasColumnType("char(36)");
-
-                            b1.Property<string>("Version")
-                                .IsRequired()
-                                .HasColumnType("longtext");
-
-                            b1.HasKey("SoftwareEntityId");
-
-                            b1.ToTable("SoftwareTable");
-
-                            b1.WithOwner()
-                                .HasForeignKey("SoftwareEntityId");
-                        });
-
-                    b.Navigation("Manufacturer")
-                        .IsRequired();
-
-                    b.Navigation("Name")
-                        .IsRequired();
-
-                    b.Navigation("System");
-
-                    b.Navigation("Version")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("AssetManagement.Domain.System.SystemEntity", b =>
@@ -151,6 +64,35 @@ namespace AssetManagement.Infrastructure.Migrations
                                 .HasForeignKey("SystemEntityId");
                         });
 
+                    b.OwnsMany("AssetManagement.Domain.System.ValueObjects.Software", "InstalledSoftware", b1 =>
+                        {
+                            b1.Property<Guid>("SystemEntityId")
+                                .HasColumnType("char(36)");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Manufacturer")
+                                .IsRequired()
+                                .HasColumnType("longtext");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasColumnType("longtext");
+
+                            b1.Property<string>("Version")
+                                .IsRequired()
+                                .HasColumnType("longtext");
+
+                            b1.HasKey("SystemEntityId", "Id");
+
+                            b1.ToTable("Software");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SystemEntityId");
+                        });
+
                     b.OwnsOne("AssetManagement.Domain.System.ValueObjects.SystemName", "Name", b1 =>
                         {
                             b1.Property<Guid>("SystemEntityId")
@@ -168,6 +110,8 @@ namespace AssetManagement.Infrastructure.Migrations
                                 .HasForeignKey("SystemEntityId");
                         });
 
+                    b.Navigation("InstalledSoftware");
+
                     b.Navigation("Ip")
                         .IsRequired();
 
@@ -176,11 +120,6 @@ namespace AssetManagement.Infrastructure.Migrations
 
                     b.Navigation("Name")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("AssetManagement.Domain.System.SystemEntity", b =>
-                {
-                    b.Navigation("InstalledSoftware");
                 });
 #pragma warning restore 612, 618
         }

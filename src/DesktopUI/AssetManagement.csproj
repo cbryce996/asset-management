@@ -19,7 +19,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.0" />
+    <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="RestSharp" Version="108.0.3" />
     <PackageReference Include="System.Management" Version="5.0.0" />
   </ItemGroup>

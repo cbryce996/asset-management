@@ -9,6 +9,6 @@ namespace AssetManagement.Application.Common.Interfaces.IRepositories
 {
     public interface ISystemRepository : IRepository<SystemEntity>
     {
-        
+        bool Update(SystemEntity _system);
     }
 }

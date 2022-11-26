@@ -14,6 +14,7 @@ using AssetManagement.Application.Admin;
 using AssetManagement.Application.Admin.DTOs;
 using AssetManagement.DesktopUI.Models;
 using AssetManagement.Domain.System.ValueObjects;
+using AssetManagement.Infrastructure.Persistence;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Builder.Extensions;
@@ -43,10 +44,10 @@ namespace AssetManagement.DesktopUI.Controllers
             adminServices = _adminServices;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             IndexViewModel model = new IndexViewModel();
-            IEnumerable<SystemDTO> systemDTOs = adminServices.GetAllSystems();
+            IEnumerable<SystemDTO> systemDTOs = await adminServices.GetAllSystems();
 
             foreach (var system in systemDTOs)
             {
@@ -77,7 +78,7 @@ namespace AssetManagement.DesktopUI.Controllers
         }
 
         [HttpPost]
-        public IList<SoftwareDTO> Software(IList<SoftwareViewModel> _softwareViewModels, string _systemId)
+        public async Task<IList<SoftwareDTO>> Software(IList<SoftwareViewModel> _softwareViewModels, string _systemId)
         {
             IList<SoftwareDTO> softwareDTOs = new List<SoftwareDTO>();
 
@@ -90,13 +91,13 @@ namespace AssetManagement.DesktopUI.Controllers
             });
             }
 
-            return adminServices.AddMultipleSoftwareToSystem(softwareDTOs, _systemId);
+            return await adminServices.AddMultipleSoftwareToSystem(softwareDTOs, _systemId);
         }
 
         [HttpPost]
-        public SoftwareDTO Software(SoftwareViewModel _software, string _systemId)
+        public async Task<SoftwareDTO> Software(SoftwareViewModel _software, string _systemId)
         {
-            return adminServices.AddSoftwareToSystem(new SoftwareDTO() {
+            return await adminServices.AddSoftwareToSystem(new SoftwareDTO() {
                 Name = _software.Name,
                 Version = _software.Version,
                 Manufacturer = _software.Manufacturer
@@ -104,9 +105,9 @@ namespace AssetManagement.DesktopUI.Controllers
         }
 
         [HttpGet]
-        public SystemViewModel System(string _systemId)
+        public async Task<SystemViewModel> System(string _systemId)
         {
-            SystemDTO systemDTO = adminServices.GetSystemById(_systemId);
+            SystemDTO systemDTO = await adminServices.GetSystemById(_systemId);
             
             return new SystemViewModel() {
                 SystemId = systemDTO.Id,
@@ -117,9 +118,9 @@ namespace AssetManagement.DesktopUI.Controllers
         }
 
         [HttpPost]
-        public SystemDTO System(SystemViewModel _system)
+        public async Task<SystemDTO> System(SystemViewModel _system)
         {
-            return adminServices.AddSystem(new SystemDTO() {
+            return await adminServices.AddSystem(new SystemDTO() {
                 Name = _system.SystemName,
                 IpAddress = _system.IpAddress,
                 MacAddress = _system.MacAddress
@@ -127,27 +128,27 @@ namespace AssetManagement.DesktopUI.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddNewSystem()
+        public async Task<IActionResult> AddNewSystem()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult AddNewSystem(SystemViewModel _system)
+        public async Task<IActionResult> AddNewSystem(SystemViewModel _system)
         {
             if (ModelState.IsValid)
             {
-                System(_system);
+                await System(_system);
                 return RedirectToAction("Index");
             }
             return View(_system);
         }
 
         [HttpGet]
-        public IActionResult AddSoftwareToSystem(string _systemId)
+        public async Task<IActionResult> AddSoftwareToSystem(string _systemId)
         {
             AddSoftwareToSystemViewModel addSoftwareToSystem = new AddSoftwareToSystemViewModel() {
-                System = System(_systemId),
+                System = await System(_systemId),
                 Software = new SoftwareViewModel()
             };
 
@@ -155,20 +156,20 @@ namespace AssetManagement.DesktopUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddSoftwareToSystem(AddSoftwareToSystemViewModel addSoftwareToSystem)
+        public async Task<IActionResult> AddSoftwareToSystem(AddSoftwareToSystemViewModel addSoftwareToSystem)
         {
             if (ModelState.IsValid)
             {
-                Software(addSoftwareToSystem.Software, addSoftwareToSystem.System.SystemId);
+                await Software(addSoftwareToSystem.Software, addSoftwareToSystem.System.SystemId);
                 return RedirectToAction("Index");
             }
             return View(addSoftwareToSystem);
         }
 
         [HttpGet]
-        public IActionResult LookupSoftwareOnSystem(string _systemId)
+        public async Task<IActionResult> LookupSoftwareOnSystem(string _systemId)
         {
-            IList<SoftwareDTO> softwareEntities = adminServices.GetSoftwareOnSystem(_systemId);
+            IList<SoftwareDTO> softwareEntities = await adminServices.GetSoftwareOnSystem(_systemId);
             IList<SoftwareViewModel> softwareViewModels = new List<SoftwareViewModel>();
 
             foreach (var software in softwareEntities)
@@ -182,36 +183,38 @@ namespace AssetManagement.DesktopUI.Controllers
             }
 
             LookupSoftwareOnSystemViewModel lookupSoftwareOnSystem = new LookupSoftwareOnSystemViewModel() {
-                System = System(_systemId),
+                System = await System(_systemId),
                 Software = softwareViewModels
             };
+
             return View(lookupSoftwareOnSystem);
         }
 
         [HttpGet]
-        public IActionResult CheckVulnerabilityOfSoftware(SoftwareViewModel _software)
+        public async Task<IActionResult> CheckVulnerabilityOfSoftware(SoftwareViewModel _software)
         {
+            CheckVulnerabilityOfSoftwareViewModel checkVulnerability = new CheckVulnerabilityOfSoftwareViewModel() {
+                Software = _software
+            };
             using (RestClient client = new RestClient("https://services.nvd.nist.gov/rest/json/cves/2.0"))
             {
                     client.UseSystemTextJson();
-                    RestRequest request = new RestRequest();
-/*
-                    request.AddParameter("keywordSearch",
-                        HttpUtility.UrlPathEncode(_software.Version.ToLower().Replace(" ", "_")) + " " +
-                        HttpUtility.UrlPathEncode(_software.Name.ToLower().Replace(" ", "_"))
+                    var request = new RestRequest();
+
+                    request.AddParameter("virtualMatchString",
+                        "cpe:2.3:*:" +
+                        _software.Manufacturer.ToLower().Replace(" ", "_") + ":" +
+                        _software.Name.ToLower().Replace(" ", "_") + ":" +
+                        "*"
                     );
-*/
-                    
-                    request.AddParameter("keywordSearch",
-                        HttpUtility.UrlPathEncode(_software.Name).ToLower().Replace(" ", "_") + " " +
-                        HttpUtility.UrlPathEncode(_software.Version).ToLower().Replace(" ", "_")
-                    );
-                    
+
+                    request.AddParameter("resultsPerPage", 5);
 
                     try
                     {
-                        var response = client.ExecuteAsync(request).Result;
-                        var deserialized = JsonConvert.DeserializeObject<dynamic>(response.Content);
+                        RestResponse response = await client.ExecuteAsync(request);
+
+                        checkVulnerability.CveResponse = JsonConvert.DeserializeObject<CveResponseViewModel>(response.Content);
                     }
                     catch (Exception e)
                     {
@@ -219,21 +222,33 @@ namespace AssetManagement.DesktopUI.Controllers
                     };
             }
 
-            CheckVulnerabilityOfSoftwareViewModel checkVulnerability = new CheckVulnerabilityOfSoftwareViewModel() {
-                Software = _software
-            };
-
             return View(checkVulnerability);
         }
 
         [HttpGet]
-        public IActionResult EditSystemInformation(string _systemId)
+        public async Task<IActionResult> EditSystemInformation(string _systemId)
         {
-            return View(System(_systemId));
+            SystemViewModel system = await System(_systemId);
+            return View(system);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditSystemInformation(SystemViewModel _system)
+        {
+            SystemDTO system = new SystemDTO() {
+                Id = _system.SystemId,
+                IpAddress = _system.IpAddress,
+                MacAddress = _system.MacAddress,
+                Name = _system.SystemName
+            };
+
+            await adminServices.EditSystemInformation(system, _system.SystemId);
+
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult AutoGetSoftwareOnSystem(string _systemId)
+        public async Task<IActionResult> AutoGetSoftwareOnSystem(string _systemId)
         {
             IList<SoftwareViewModel> softwareViewModels = new List<SoftwareViewModel>();
 
@@ -259,40 +274,34 @@ namespace AssetManagement.DesktopUI.Controllers
                     }
                 }
             }
-            Software(softwareViewModels, _systemId);
+            await Software(softwareViewModels, _systemId);
             return RedirectToAction("LookupSoftwareOnSystem", "Home", new { _systemId = _systemId });
         }
 
-        public IActionResult NewSystem()
+        public async Task<IActionResult> NewSystem()
         {
             return View();
         }
 
-        public IActionResult EditSystem(SystemViewModel _system)
+        public async Task<IActionResult> EditSystem(SystemViewModel _system)
         {
             return View(_system);
         }
 
-        public IActionResult DeleteSoftware(SoftwareViewModel _software)
+        public async Task<IActionResult> DeleteSoftware(SoftwareViewModel _software, string _systemId)
         {
             SoftwareDTO software = new SoftwareDTO() {
                 Name = _software.Name,
                 Version = _software.Version,
                 Manufacturer = _software.Manufacturer
             };
-            adminServices.DeleteSoftware(software);
-            return RedirectToAction("Index");
+            await adminServices.DeleteSoftware(software, _systemId);
+            return RedirectToAction("LookupSoftwareOnSystem", "Home", new { _systemId = _systemId });
         }
 
-        public IActionResult DeleteSystem(SystemViewModel _system)
+        public async Task<IActionResult> DeleteSystem(string _systemId)
         {
-            SystemDTO system = new SystemDTO() {
-                Id = _system.SystemId,
-                Name = _system.SystemName,
-                IpAddress = _system.IpAddress,
-                MacAddress = _system.MacAddress
-            };
-            adminServices.DeleteSystem(system);
+            await adminServices.DeleteSystem(_systemId);
             return RedirectToAction("Index");
         }
 

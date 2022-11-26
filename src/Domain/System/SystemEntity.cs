@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.IO.Enumeration;
 using System.Linq;
 using System.Threading.Tasks;
-using AssetManagement.Domain.Software;
 using AssetManagement.Domain.System.ValueObjects;
 
 namespace AssetManagement.Domain.System
@@ -15,8 +14,7 @@ namespace AssetManagement.Domain.System
         public SystemName Name { get; set; }
         public IpAddress Ip { get; set; }
         public MacAddress Mac { get; set; }
-
-        public IList<SoftwareEntity> InstalledSoftware { get; set; }
+        public IList<Software> InstalledSoftware { get; set; }
 
         public SystemEntity()
         {
@@ -29,7 +27,7 @@ namespace AssetManagement.Domain.System
             Name = _Name;
             Ip = _Ip;
             Mac = _Mac;
-            InstalledSoftware = new List<SoftwareEntity>();
+            InstalledSoftware = new List<Software>();
         }
 
         public SystemEntity(SystemName _Name, IpAddress _Ip, MacAddress _Mac)
@@ -38,12 +36,20 @@ namespace AssetManagement.Domain.System
             Name = _Name;
             Ip = _Ip;
             Mac = _Mac;
-            InstalledSoftware = new List<SoftwareEntity>();
+            InstalledSoftware = new List<Software>();
         }
 
-        public void AddSoftware(SoftwareEntity _Software)
+        public void AddSoftware(Software _software)
         {
-            InstalledSoftware.Add(_Software);
+            if (!InstalledSoftware.Contains(_software))
+            {
+                InstalledSoftware.Add(_software);
+            }
+        }
+
+        public void RemoveSoftware(Software _software)
+        {
+            InstalledSoftware.Remove(_software);
         }
     }
 }

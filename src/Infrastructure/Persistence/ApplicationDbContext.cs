@@ -5,7 +5,6 @@
 */
 
 using Microsoft.EntityFrameworkCore;
-using AssetManagement.Domain.Software;
 using AssetManagement.Domain.System;
 using System.Globalization;
 using AssetManagement.Domain.System.ValueObjects;
@@ -19,7 +18,6 @@ namespace AssetManagement.Infrastructure.Persistence
     {
         // DbSet represents a table within the database
         // Will be built by Entity Framework according to entity type
-        public virtual DbSet<SoftwareEntity> SoftwareTable { get; set; }
         public virtual DbSet<SystemEntity> SystemTable  { get; set; }
 
         // Captures default options from base DbContext declared in startup.cs
@@ -37,10 +35,7 @@ namespace AssetManagement.Infrastructure.Persistence
             builder.Entity<SystemEntity>().OwnsOne(x => x.Name);
             builder.Entity<SystemEntity>().OwnsOne(x => x.Ip);
             builder.Entity<SystemEntity>().OwnsOne(x => x.Mac);
-
-            builder.Entity<SoftwareEntity>().OwnsOne(x => x.Manufacturer);
-            builder.Entity<SoftwareEntity>().OwnsOne(x => x.Name);
-            builder.Entity<SoftwareEntity>().OwnsOne(x => x.Version);
+            builder.Entity<SystemEntity>().OwnsMany(x => x.InstalledSoftware);
         }
     }
 }
