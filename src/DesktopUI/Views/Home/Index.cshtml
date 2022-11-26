@@ -35,10 +35,10 @@ ViewData["Title"] = "Home Page";
                                             <td>@system.MacAddress</td>
                                             <td>
                                                 <div class="float-end">
-                                                    <a href=@Url.Action("DeleteSystem", new { _systemId = system.SystemId }) class="btn btn-sm btn-danger"><i class="fas fa-sm fa-trash"></i></a>
                                                     <a href=@Url.Action("EditSystemInformation", "Home", new { _systemId = system.SystemId }) class="btn btn-sm btn-primary"><i class="fas fa-sm fa-pen"></i></a>
                                                     <a href=@Url.Action("LookupSoftwareOnSystem", "Home", new { _systemId = system.SystemId}) class="btn btn-sm btn-primary"><i class="fas fa-sm fa-search"></i></a>
                                                     <a href=@Url.Action("AddSoftwareToSystem", "Home", new { _systemId = system.SystemId }) class="btn btn-sm btn-primary"><i class="fas fa-sm fa-plus"></i></a>
+                                                    <a href=@Url.Action("DeleteSystem", new { _systemId = system.SystemId }) class="btn btn-sm btn-danger"><i class="fas fa-sm fa-trash"></i></a>
                                                 </div>  
                                             </td>
                                         </tr>

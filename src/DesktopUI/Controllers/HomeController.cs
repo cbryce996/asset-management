@@ -161,7 +161,7 @@ namespace AssetManagement.DesktopUI.Controllers
             if (ModelState.IsValid)
             {
                 await Software(addSoftwareToSystem.Software, addSoftwareToSystem.System.SystemId);
-                return RedirectToAction("Index");
+                return RedirectToAction("LookUpSoftwareOnSystem", "Home", new { _systemId = addSoftwareToSystem.System.SystemId });
             }
             return View(addSoftwareToSystem);
         }
