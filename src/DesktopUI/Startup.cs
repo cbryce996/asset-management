@@ -12,6 +12,8 @@ using AssetManagement.Infrastructure.Persistence;
 
 using ElectronNET.API;
 using AssetManagement.Application.Admin;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 namespace AssetManagement.DesktopUI
 {
@@ -30,12 +32,21 @@ namespace AssetManagement.DesktopUI
             // MySql connection string
             var connectionString = "Server=lochnagar.abertay.ac.uk;User=sql2004624;Password=b8DWGSDHEaoB;Database=sql2004624";
 
+            // Create DbContext and inject
             services.AddDbContext<ApplicationDbContext>(option => option.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
+            // Inject Application layer services
             services.AddTransient<AdminServices>();
+
+            // Inject UnitOfWork
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddControllersWithViews();
+
+            // Inject Cookie Auth
+            services.AddAuthentication("Auth").AddCookie("Auth", options => {
+                options.Cookie.Name = "Auth";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +67,7 @@ namespace AssetManagement.DesktopUI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

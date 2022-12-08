@@ -1,12 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.Common;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Xml;
 using AssetManagement.Application.Admin.DTOs;
 using AssetManagement.Application.Common.Interfaces;
 using AssetManagement.Domain.System;
@@ -14,15 +8,23 @@ using AssetManagement.Domain.System.ValueObjects;
 
 namespace AssetManagement.Application.Admin
 {   
+    /*
+    * Provides business logic and interaction with data persistence, interacts with Domain layer
+    * and provides interfaces for Infrastructure layer, Dependency Injected into DesktopUI
+    */
+
     public class AdminServices
     {
+        /* Local DI services */
         private readonly IUnitOfWork unitOfWork;
 
+        /* Capture DI services */
         public AdminServices(IUnitOfWork _unitOfWork)
         {
             unitOfWork = _unitOfWork;
         }
 
+        /* Gets a list of all Systems from Repository and returns DTO collection */
         public async Task<IEnumerable<SystemDTO>> GetAllSystems()
         {
             // Create lists for Domain Models and DTOs
@@ -52,6 +54,7 @@ namespace AssetManagement.Application.Admin
             return systemDTOs;
         }
 
+        /* Gets a System from Repository by Id and returns DTO */
         public async Task<SystemDTO> GetSystemById(string _systemId)
         {
             SystemEntity system = await unitOfWork.SystemRepository.Get(new Guid(_systemId));
@@ -65,6 +68,7 @@ namespace AssetManagement.Application.Admin
             return systemDTO;
         }
 
+        /* Adds a System through Repository and returns added DTO */
         public async  Task<SystemDTO> AddSystem(SystemDTO _system)
         {
             // Create new domain model
@@ -83,6 +87,7 @@ namespace AssetManagement.Application.Admin
             return _system;
         }
 
+        /* Adds Software to a System by Id and returns DTO of added Software */
         public async Task<SoftwareDTO> AddSoftwareToSystem(SoftwareDTO _software, string _systemId)
         {
             SystemEntity system = await unitOfWork.SystemRepository.Get(new Guid(_systemId));
@@ -100,6 +105,7 @@ namespace AssetManagement.Application.Admin
             return _software;
         }
 
+        /* Adds a batch of Software to a System by id and returns DTO Collection of added Software */
         public async Task<IList<SoftwareDTO>> AddMultipleSoftwareToSystem(IList<SoftwareDTO> _softwareDTOs, string _systemId)
         {
             SystemEntity system = await unitOfWork.SystemRepository.Get(new Guid(_systemId));
@@ -120,6 +126,7 @@ namespace AssetManagement.Application.Admin
             return _softwareDTOs;
         }
 
+        /* Gets Software on a System by Id and returns DTO collection */
         public async Task<IList<SoftwareDTO>> GetSoftwareOnSystem(string _systemId)
         {
             SystemEntity system = await unitOfWork.SystemRepository.Get(new Guid(_systemId));
@@ -139,6 +146,7 @@ namespace AssetManagement.Application.Admin
             return softwareDTOs;
         }
 
+        /* Deletes Software from System by Id */
         public async Task DeleteSoftware(SoftwareDTO _software, string _systemId)
         {
             SystemEntity system = await unitOfWork.SystemRepository.Get(new Guid(_systemId));
@@ -152,6 +160,7 @@ namespace AssetManagement.Application.Admin
             await unitOfWork.Complete();
         }
 
+        /* Edits System information and returns DTO of updated System */
         public async Task<SystemDTO> EditSystemInformation(SystemDTO _system, string _systemId)
         {
             SystemEntity system = await unitOfWork.SystemRepository.Get(new Guid(_systemId));
@@ -166,6 +175,7 @@ namespace AssetManagement.Application.Admin
             return _system;
         }
 
+        /* Deletes System and returns bool result */
         public async Task<bool> DeleteSystem(string _systemId)
         {
             SystemEntity system = await unitOfWork.SystemRepository.Get(new Guid(_systemId));

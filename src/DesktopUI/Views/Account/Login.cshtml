@@ -1,0 +1,46 @@
+@model AssetManagement.DesktopUI.Models.UserViewModel;
+
+@using(Html.BeginForm("Login", "Account", FormMethod.Post))
+{
+
+<div class="content my-3 p-0">
+    <div class="container">
+         <div class="row justify-content-center">            
+            <div class="col-sm-7 col-lg-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="mb-4">
+                            <img class="brand" src="assets/img/bootstraper-logo.png" alt="bootstraper logo">
+                        </div>
+                        <h6 class="mb-4 text-muted">Login to your account</h6>
+                        <form action="" method="">
+                            <div class="mb-3 text-start">
+                                @Html.LabelFor(m => m.Username, "Username", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.Username, new { @class = "form-control"})
+                                @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="mb-3 text-start">
+                                @Html.LabelFor(m => m.Password, "Password", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.Password, new { @class = "form-control"})
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="mb-3 text-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" name="remember" type="checkbox" value="" id="check1">
+                                    <label class="form-check-label" for="check1">
+                                    Remember me on this device
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" value="Submit" class="btn btn-primary shadow-2 mb-4">Login</button>
+                        </form>
+                        <p class="mb-2 text-muted">Forgot password? <a href="forgot-password.html">Reset</a></p>
+                        <p class="mb-0 text-muted">Don't have account yet? <a href="signup.html">Signup</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}
