@@ -5,14 +5,13 @@ An Asset Management application developed for my Software Engineering module, th
 
 ## Project Structure
     .
-    ├── build                   # Compiled builds
     ├── docs                    # Documentation files
     ├── src                     # Source code
         ├── Domain              # Domain specific models
         ├── Application         # Use cases and interfaces
         ├── Infrastructure      # Services, persistence and implementations
-        └── Presentation        # User interfaces
-    ├── test                    # Automated tests
+        └── DesktopUI           # Desktop user interface
+    ├── tests                   # Automated tests
     ├── LICENSE
     └── README.md
 
