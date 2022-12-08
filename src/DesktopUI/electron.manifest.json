@@ -1,20 +1,20 @@
 {
-  "executable": "AssetManagement.DesktopUI",
+  "executable": "AssetManagement",
   "splashscreen": {
     "imageFile": ""
   },
-  "name": "AssetManagement.DesktopUI",
+  "name": "AssetManagement",
   "author": "",
   "singleInstance": false,
   "environment": "Production",
   "build": {
-    "appId": "com.AssetManagement.DesktopUI.app",
-    "productName": "AssetManagement.DesktopUI",
+    "appId": "com.AssetManagement.app",
+    "productName": "AssetManagement",
     "copyright": "Copyright © 2020",
     "buildVersion": "1.0.0",
     "compression": "maximum",
     "directories": {
-      "output": "../../../../../../build"
+      "output": "../../../bin/Desktop"
     },
     "extraResources": [
       {

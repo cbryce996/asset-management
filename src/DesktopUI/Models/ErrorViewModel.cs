@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace AssetManagement.DesktopUI.Models
 {
-    public class Asset
+    public class ErrorViewModel
     {
-        
+        public string RequestId { get; set; }
+
+        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
 }

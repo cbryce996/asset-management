@@ -1,56 +1,48 @@
-﻿@model IEnumerable<AssetManagement.DesktopUI.Models.Asset>;
+﻿@model AssetManagement.DesktopUI.Models.IndexViewModel;
 @{
 ViewData["Title"] = "Home Page";
 }
-<div class="content">
+<div class="content my-3 p-0">
     <div class="container">
-        <div class="row mt-2">            
+         <div class="row">            
             <div class="col-12">
-               <div class="card">
+                <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0"> Assets </h5>
+                        <h5 class="mb-0"> Systems </h5>
                     </div>
-                    <ul class="list-group list-group-flush">
+                    <div class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <a class="btn btn-md btn-primary" asp-area="" asp-controller="Home" asp-action="AddAsset"><i class="fas fa-sm fa-plus"></i><span class="ms-2">Add Asset</span></a>
+                            <a class="btn btn-md btn-primary" asp-area="" asp-controller="Home" asp-action="AddNewSystem"><i class="fas fa-sm fa-plus"></i><span class="ms-2">New</span></a>
                             <a class="btn btn-md btn-secondary" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-sm fa-sync"></i></a>
-                            <div class="btn-group" role="group">
-                                <button href="roles.html" class="btn btn-md btn-secondary"><i class="fas fa-sm fa-pen"></i></button>
-                                <button href="roles.html" class="btn btn-md btn-secondary"><i class="fas fa-sm fa-trash"></i></button>
-                            </div>
-                            <button href="roles.html" class="btn btn-md btn-secondary"><span class="me-2">More</span><i class="fas fa-sm fa-caret-down"></i></button>
                             <button href="roles.html" class="btn btn-md btn-secondary float-end"><span class="me-2">Filter by</span><i class="fas fa-sm fa-caret-down"></i></button>
                         </li>
                         <li class="list-group-item">
-                            <table width="100%" class="table table-hover table" id="dataTables-example">
+                            <table width="100%" class="table table-hover table-bordered table" id="systems">
                                 <thead class="" >
                                     <tr>
-                                        <th>Computer Name</th>
-                                        <th>Computer Model</th>
-                                        <th>Computer Manufacturer</th>
-                                        <th>Computer Type</th>
-                                        <th>OS Name</th>
-                                        <th>OS Version</th>
-                                        <th>OS Architecture</th>
+                                        <th>Name</th>
                                         <th>IP Address</th>
                                         <th>MAC Address</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        @foreach (var asset in Model)
-                                        { 
-                                            <tr>
-                                                <td>@asset.CName</td>
-                                                <td>@asset.CModel</td>
-                                                <td>@asset.CManufacturer</td>
-                                                <td>@asset.CType</td>
-                                                <td>@asset.OSName</td>
-                                                <td>@asset.OSVersion</td>
-                                                <td>@asset.OSArch</td>
-                                                <td>@asset.IPAddress</td>
-                                                <td>@asset.MACAddress</td>
-                                            </tr>
-                                        }
+                                    @foreach(var system in Model.Systems)
+                                    {
+                                        <tr>
+                                            <td>@system.SystemName</td>
+                                            <td>@system.IpAddress</td>
+                                            <td>@system.MacAddress</td>
+                                            <td>
+                                                <div class="float-end">
+                                                    <a href=@Url.Action("EditSystemInformation", "Home", new { _systemId = system.SystemId }) class="btn btn-sm btn-primary"><i class="fas fa-sm fa-pen"></i></a>
+                                                    <a href=@Url.Action("LookupSoftwareOnSystem", "Home", new { _systemId = system.SystemId}) class="btn btn-sm btn-primary"><i class="fas fa-sm fa-search"></i></a>
+                                                    <a href=@Url.Action("AddSoftwareToSystem", "Home", new { _systemId = system.SystemId }) class="btn btn-sm btn-primary"><i class="fas fa-sm fa-plus"></i></a>
+                                                    <a href=@Url.Action("DeleteSystem", new { _systemId = system.SystemId }) class="btn btn-sm btn-danger"><i class="fas fa-sm fa-trash"></i></a>
+                                                </div>  
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </li>

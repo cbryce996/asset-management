@@ -7,7 +7,9 @@ namespace AssetManagement.Application.Admin.DTOs
 {
     public class SystemDTO
     {
-        public string IpAddress;
-        public string MacAddress;
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string IpAddress { get; set; }
+        public string MacAddress { get; set; }
     }
 }

@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/tests/Domain/Unit/Domain.Unit.csproj",
+                "${workspaceFolder}/src/DesktopUI/AssetManagement.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/tests/Domain/Unit/Domain.Unit.csproj",
+                "${workspaceFolder}/src/DesktopUI/AssetManagement.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/tests/Domain/Unit/Domain.Unit.csproj"
+                "${workspaceFolder}/src/DesktopUI/AssetManagement.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

@@ -14,10 +14,9 @@ namespace AssetManagement.Application.Common.Interfaces
     public interface IRepository<T> where T : class
     {
         // Generic methods available to all repository
-        IEnumerable<T> All();
-        T Get(Guid id);
-        bool Add(T entity);
-        bool Remove(Guid id);
-        bool Upsert(T entity);
+        IAsyncEnumerable<T> All();
+        Task<T> Get(Guid id);
+        Task<bool> Add(T entity);
+        bool Remove(T entity);
     }
 }

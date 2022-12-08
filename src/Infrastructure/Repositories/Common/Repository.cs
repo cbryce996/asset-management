@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using AssetManagement.Application.Common.Interfaces;
 using AssetManagement.Infrastructure.Persistence;
+using System.Threading.Tasks;
 
 namespace AssetManagement.Infrastructure.Repositories
 {
@@ -30,30 +31,29 @@ namespace AssetManagement.Infrastructure.Repositories
             this.dbSet = context.Set<T>();
         }
 
-        public bool Add(T entity)
+        public async Task<bool> Add(T entity)
         {
-            dbSet.Add(entity);
+            await dbSet.AddAsync(entity);
             return true;
         }
 
-        public virtual IEnumerable<T> All()
+        public async virtual IAsyncEnumerable<T> All()
         {
-            return dbSet.ToList();
+            foreach (var x in await dbSet.ToListAsync())
+            {
+                yield return x;
+            }
         }
 
-        public T Get(Guid id)
+        public async Task<T> Get(Guid id)
         {
-            return dbSet.Find(id);
+            return await dbSet.FindAsync(id);
         }
 
-        public virtual bool Remove(Guid id)
+        public virtual bool Remove(T entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public virtual bool Upsert(T entity)
-        {
-            throw new NotImplementedException();
+           dbSet.Remove(entity);
+           return true;
         }
     }
 }

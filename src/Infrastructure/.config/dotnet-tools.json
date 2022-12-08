@@ -2,10 +2,10 @@
   "version": 1,
   "isRoot": true,
   "tools": {
-    "electronnet.cli": {
-      "version": "13.5.1",
+    "dotnet-ef": {
+      "version": "5.0.0",
       "commands": [
-        "electronize"
+        "dotnet-ef"
       ]
     }
   }

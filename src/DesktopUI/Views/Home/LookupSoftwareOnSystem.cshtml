@@ -1,0 +1,96 @@
+@model AssetManagement.DesktopUI.Models.LookupSoftwareOnSystemViewModel;
+@{
+ViewData["Title"] = "Home Page";
+}
+<!-- Content Wrapper -->
+<div class="content my-3 p-0">
+    <div class="container">
+         <div class="row">            
+            <div class="col-12">
+                <div class="card">
+                    <div class="list-group list-group-flush">
+                        <div class="card-header">
+                            <h5 class="mb-0"> System </h5>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row g-2 mb-2">
+                                <div class="col-md-6 form-group">
+                                    <fieldset disabled>
+                                    @Html.LabelFor(m => m.System.SystemName, "Name", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.System.SystemName, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.System.SystemName, "", new { @class = "text-danger" })
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-6">
+                                    <fieldset disabled>
+                                    @Html.LabelFor(m => m.System.IpAddress, "IP Address", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.System.IpAddress, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.System.IpAddress, "", new { @class = "text-danger" })
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-6">
+                                    <fieldset disabled>
+                                    @Html.LabelFor(m => m.System.MacAddress, "MAC Address", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.System.MacAddress, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.System.MacAddress, "", new { @class = "text-danger" })
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Row -->
+        <div class="row mt-3">            
+            <div class="col-12">
+                <!-- Card -->
+               <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"> Software </h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href=@Url.Action("NewSoftware", "Home", new { Model.System.SystemId, Model.System.SystemName, Model.System.IpAddress, Model.System.MacAddress }) class="btn btn-md btn-primary"><i class="fas fa-sm fa-plus"></i><span class="ms-2">New</span></a>
+                            <a href=@Url.Action("LookupSoftwareOnSystem", "Home", new { _systemId = Model.System.SystemId }) class="btn btn-md btn-secondary"><i class="fas fa-sm fa-sync"></i></a>
+                            <div class="float-end">
+                                <a href=@Url.Action("AutoGetSoftwareOnSystem", "Home", new { _systemId = Model.System.SystemId }) class="btn btn-md btn-secondary"><span>Auto Get</span></i></a>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <table width="100%" class="table table-bordered table-hover" id="software"">
+                                <thead class="" >
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Version</th>
+                                        <th>Manufacturer</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                     @foreach(var software in Model.Software)
+                                    {
+                                        <tr>
+                                            <td>@software.Name</td>
+                                            <td>@software.Version</td>
+                                            <td>@software.Manufacturer</td>
+                                            <td>
+                                                <div class="float-end">
+                                                    <a href=@Url.Action("CheckVulnerabilityOfSoftware", software) class="btn btn-sm btn-primary"><i class="fas fa-sm fa-search"></i></a>
+                                                    <a href=@Url.Action("DeleteSoftware", new { Name = software.Name, Version = software.Version, Manufacturer = software.Manufacturer, _systemId = Model.System.SystemId }) class="btn btn-sm btn-danger"><i class="fas fa-sm fa-trash"></i></a>
+                                                </div>  
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </div>
+                <!-- End Card -->
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+</div>
+<!-- End Content Wrapper -->

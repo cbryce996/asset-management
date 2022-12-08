@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 
 namespace AssetManagement.Domain.System.ValueObjects
 {
-    public class MacAddress
+    public class SystemName
     {
-        public string Mac { get; set; }
-        public MacAddress()
+        public string Name { get; set; }
+        public SystemName()
         {
         }
-        public MacAddress(string _Mac)
+        public SystemName(string _Name)
         {
-            Mac = _Mac;
+            Name = _Name;
         }
     }
 }
