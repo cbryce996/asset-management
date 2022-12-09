@@ -38,7 +38,7 @@ jobs:
       
     - name: Build Domain Test
       run: dotnet build --no-restore
-      working-directory: ./test/Domain/Unit
+      working-directory: ./tests/Domain/Unit
       
     - name: Run Domain Test
       run: dotnet test --no-build --verbosity normal
