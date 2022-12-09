@@ -1,3 +1,5 @@
+[![main](https://github.com/cbryce996/asset-management/actions/workflows/main.yml/badge.svg)](https://github.com/cbryce996/asset-management/actions/workflows/main.yml)
+
 # Asset Management Application
 
 ## Description
