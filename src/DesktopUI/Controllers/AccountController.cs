@@ -10,10 +10,6 @@ using Microsoft.Extensions.Logging;
 
 namespace AssetManagement.DesktopUI.Controllers
 {
-    /*
-    * Controller for handling user authentication, creates a new authenticaiton cookie and logs * user out.
-    */
-
     public class AccountController : Controller
     {
         private readonly ILogger<AccountController> _logger;
@@ -26,14 +22,12 @@ namespace AssetManagement.DesktopUI.Controllers
             _logger = logger;
         }
 
-         /* Renders the login view */
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
 
-         /* Logs user in if credentials are correct */
         [HttpPost]
         public async Task<IActionResult> Login(UserViewModel _user)
         {
@@ -49,8 +43,7 @@ namespace AssetManagement.DesktopUI.Controllers
                 if (user != null)
                 {
                     var claims = new List<Claim> {
-                    new Claim(ClaimTypes.Name, "test"),
-                    new Claim(ClaimTypes.Email, "test@website.com")
+                    new Claim(ClaimTypes.Name, _user.Username)
                     };
                     ClaimsIdentity identity = new ClaimsIdentity(claims, "Auth");
                     ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
@@ -63,7 +56,6 @@ namespace AssetManagement.DesktopUI.Controllers
             return View(_user);
         }
 
-         /* Removes authenticaiton cookie for logout */
         [HttpGet]
         public IActionResult Logout()
         {

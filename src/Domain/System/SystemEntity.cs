@@ -8,11 +8,6 @@ using AssetManagement.Domain.System.ValueObjects;
 
 namespace AssetManagement.Domain.System
 {
-    /*
-    * Domain entity for System, core domain logic relating to the
-    * System domain entity should go here.
-    */
-
     public class SystemEntity
     {
         public Guid Id { get; set; }

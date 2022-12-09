@@ -12,11 +12,6 @@ using AssetManagement.Domain.User;
 
 namespace AssetManagement.Infrastructure.Persistence
 {
-    /*
-    * DbContext represents the database which Entity Framework will use
-    * Contains connection and configuration information about the database.
-    */
-
     public class ApplicationDbContext : DbContext
     {
         /* DbSet represents a table within the database  */

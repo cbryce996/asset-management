@@ -8,11 +8,6 @@ using System;
 
 namespace AssetManagement.Domain.System.ValueObjects
 {
-    /*
-    * Software ValueObject implemented as an immutable object whos identity
-    * is determined by its values.
-    */
-
     public class Software
     {
         public string Name { get; private set; }
@@ -40,10 +35,8 @@ namespace AssetManagement.Domain.System.ValueObjects
             Manufacturer = _Manufacturer;
         }
 
-        /* Overrides the GetHashCode method, necessary for certain comparison operations */
         public override int GetHashCode() => new { Name, Version, Manufacturer }.GetHashCode();
 
-        /* Overrides the Equals operator to provide a comparison based on the value of the fields */
         public override bool Equals(Object obj)
         {
             if (obj == null)

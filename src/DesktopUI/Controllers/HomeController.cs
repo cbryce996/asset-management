@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using AssetManagement.Application.Admin;
@@ -15,11 +15,6 @@ using RestSharp.Serializers.Json;
 
 namespace AssetManagement.DesktopUI.Controllers
 {
-    /*
-    * Main controller for admin, handles rendering of views and conversion of data from DTO to 
-    * ViewModel and vice versa. Sends and receives prepared data from Application Layer.
-    */
-
     [Authorize]
     public class HomeController : Controller
     {
@@ -34,7 +29,6 @@ namespace AssetManagement.DesktopUI.Controllers
             adminServices = _adminServices;
         }
 
-        /* Renders Index view */
         public async Task<IActionResult> Index()
         {
             IndexViewModel model = new IndexViewModel();
@@ -56,7 +50,6 @@ namespace AssetManagement.DesktopUI.Controllers
             return View(model);
         }
 
-        /* Adds a batch of Software entites to a System */
         [HttpPost]
         public async Task<IList<SoftwareDTO>> Software(IList<SoftwareViewModel> _softwareViewModels, string _systemId)
         {
@@ -74,7 +67,6 @@ namespace AssetManagement.DesktopUI.Controllers
             return await adminServices.AddMultipleSoftwareToSystem(softwareDTOs, _systemId);
         }
 
-        /* Adds a single Software entity to a System */
         [HttpPost]
         public async Task<SoftwareDTO> Software(SoftwareViewModel _software, string _systemId)
         {
@@ -85,7 +77,6 @@ namespace AssetManagement.DesktopUI.Controllers
             }, _systemId);
         }
 
-        /* Gets a System entity from id */
         [HttpGet]
         public async Task<SystemViewModel> System(string _systemId)
         {
@@ -99,7 +90,6 @@ namespace AssetManagement.DesktopUI.Controllers
             };
         }
 
-        /* Adds a single System entity */
         [HttpPost]
         public async Task<SystemDTO> System(SystemViewModel _system)
         {
@@ -110,14 +100,12 @@ namespace AssetManagement.DesktopUI.Controllers
             });
         }
 
-        /* Renders the Add New System view */
         [HttpGet]
         public async Task<IActionResult> AddNewSystem()
         {
             return View();
         }
 
-        /* Handles post request for Add New System view */
         [HttpPost]
         public async Task<IActionResult> AddNewSystem(SystemViewModel _system)
         {
@@ -129,7 +117,6 @@ namespace AssetManagement.DesktopUI.Controllers
             return View(_system);
         }
 
-        /* Renders a view to add Software to a system */
         [HttpGet]
         public async Task<IActionResult> AddSoftwareToSystem(string _systemId)
         {
@@ -141,7 +128,6 @@ namespace AssetManagement.DesktopUI.Controllers
             return View(addSoftwareToSystem);
         }
 
-        /* Handles post request for Add Software to System view */
         [HttpPost]
         public async Task<IActionResult> AddSoftwareToSystem(AddSoftwareToSystemViewModel addSoftwareToSystem)
         {
@@ -153,7 +139,6 @@ namespace AssetManagement.DesktopUI.Controllers
             return View(addSoftwareToSystem);
         }
 
-        /* Renders a view which shows all Software on a given system */
         [HttpGet]
         public async Task<IActionResult> LookupSoftwareOnSystem(string _systemId)
         {
@@ -178,7 +163,6 @@ namespace AssetManagement.DesktopUI.Controllers
             return View(lookupSoftwareOnSystem);
         }
 
-        /* Renders a view which checks the vulnerability of a Software entity */
         [HttpGet]
         public async Task<IActionResult> CheckVulnerabilityOfSoftware(SoftwareViewModel _software)
         {
@@ -186,7 +170,6 @@ namespace AssetManagement.DesktopUI.Controllers
                 Software = _software
             };
 
-            /* RestClient package used to communicate with API */
             using (RestClient client = new RestClient("https://services.nvd.nist.gov/rest/json/cves/2.0"))
             {
                     client.UseSystemTextJson();
@@ -210,7 +193,6 @@ namespace AssetManagement.DesktopUI.Controllers
             return View(checkVulnerability);
         }
 
-        /* Renders a view to Edit System Information */
         [HttpGet]
         public async Task<IActionResult> EditSystemInformation(string _systemId)
         {
@@ -218,7 +200,6 @@ namespace AssetManagement.DesktopUI.Controllers
             return View(system);
         }
 
-        /* Handles post request for Edit System Information view */
         [HttpPost]
         public async Task<IActionResult> EditSystemInformation(SystemViewModel _system)
         {
@@ -234,13 +215,11 @@ namespace AssetManagement.DesktopUI.Controllers
             return RedirectToAction("Index");
         }
 
-        /* Get's all software on the running system */
         [HttpGet]
         public async Task<IActionResult> AutoGetSoftwareOnSystem(string _systemId)
         {
             IList<SoftwareViewModel> softwareViewModels = new List<SoftwareViewModel>();
 
-            /* Use Uninstall registry key to get software */
             string registry_key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
             using(Microsoft.Win32.RegistryKey key = Registry.LocalMachine.OpenSubKey(registry_key))
             {
@@ -254,7 +233,6 @@ namespace AssetManagement.DesktopUI.Controllers
                             subkey.GetValue("Publisher")  != null
                         )
                         {
-                            /* If all fields exist create a new Software view model */
                             softwareViewModels.Add( new SoftwareViewModel() {
                                 Name = (string)subkey.GetValue("DisplayName"),
                                 Version = (string)subkey.GetValue("DisplayVersion"),
@@ -265,28 +243,23 @@ namespace AssetManagement.DesktopUI.Controllers
                 }
             }
 
-            /* Batch add Software to System */
             await Software(softwareViewModels, _systemId);
 
-            /* Return to Software Lookup view */
             return RedirectToAction("LookupSoftwareOnSystem", "Home", new { _systemId = _systemId });
         }
 
-        /* Renders view for creating a new System */
         [HttpGet]
         public async Task<IActionResult> NewSystem()
         {
             return View();
         }
 
-        /* Renders view for editing system */
         [HttpGet]
         public async Task<IActionResult> EditSystem(SystemViewModel _system)
         {
             return View(_system);
         }
 
-        /* Deletes a Software entity from a System */
         [HttpGet]
         public async Task<IActionResult> DeleteSoftware(SoftwareViewModel _software, string _systemId)
         {
@@ -299,7 +272,6 @@ namespace AssetManagement.DesktopUI.Controllers
             return RedirectToAction("LookupSoftwareOnSystem", "Home", new { _systemId = _systemId });
         }
 
-        /* Deletes a System */
         [HttpGet]
         public async Task<IActionResult> DeleteSystem(string _systemId)
         {
