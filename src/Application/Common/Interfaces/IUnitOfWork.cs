@@ -13,8 +13,9 @@ namespace AssetManagement.Application.Common.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         ISystemRepository SystemRepository { get; set; }
+        
+        IUserRepository UserRepository { get; set; }
 
-        // Sends changes to database
         Task<bool> Complete();
     }
 }

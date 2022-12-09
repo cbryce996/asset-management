@@ -14,6 +14,7 @@ using ElectronNET.API;
 using AssetManagement.Application.Admin;
 using Microsoft.AspNetCore.Mvc.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using AssetManagement.Application.Auth;
 
 namespace AssetManagement.DesktopUI
 {
@@ -37,6 +38,7 @@ namespace AssetManagement.DesktopUI
 
             // Inject Application layer services
             services.AddTransient<AdminServices>();
+            services.AddTransient<AuthServices>();
 
             // Inject UnitOfWork
             services.AddTransient<IUnitOfWork, UnitOfWork>();

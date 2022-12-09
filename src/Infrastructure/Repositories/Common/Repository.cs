@@ -45,7 +45,7 @@ namespace AssetManagement.Infrastructure.Repositories
             }
         }
 
-        public async Task<T> Get(Guid id)
+        public async virtual Task<T> Get(Guid id)
         {
             return await dbSet.FindAsync(id);
         }

@@ -7,15 +7,35 @@ namespace AssetManagement.Domain.System.ValueObjects
 {
     public class IpAddress
     {
-        public string Ip { get; set; }
+        public string Ip { get; private set; }
 
-        public IpAddress()
+        public static IpAddress Create (string _Ip)
+        {
+            return new IpAddress(_Ip);
+        }
+
+        public static IpAddress Empty ()
+        {
+            return new IpAddress();
+        }
+
+        private IpAddress()
         {
         }
 
-        public IpAddress(string _Ip)
+        private IpAddress(string _Ip)
         {
             Ip = _Ip;
+        }
+
+        public override int GetHashCode() => new { Ip }.GetHashCode();
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+                return false;
+            var other = (IpAddress)obj;
+            return other.Ip == Ip;
         }
     }
 }
