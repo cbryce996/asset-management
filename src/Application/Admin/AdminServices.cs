@@ -74,8 +74,8 @@ namespace AssetManagement.Application.Admin
             // Create new domain model
             SystemEntity system = new SystemEntity(
                 new SystemName(_system.Name),
-                new IpAddress(_system.IpAddress),
-                new MacAddress(_system.MacAddress)
+                IpAddress.Create(_system.IpAddress),
+                MacAddress.Create(_system.MacAddress)
             );
             
             // Add changes to repository
@@ -165,8 +165,8 @@ namespace AssetManagement.Application.Admin
         {
             SystemEntity system = await unitOfWork.SystemRepository.Get(new Guid(_systemId));
 
-            system.Ip = new IpAddress(_system.IpAddress);
-            system.Mac = new MacAddress(_system.MacAddress);
+            system.Ip = IpAddress.Create(_system.IpAddress);
+            system.Mac = MacAddress.Create(_system.MacAddress);
             system.Name = new SystemName(_system.Name);
 
             unitOfWork.SystemRepository.Update(system);

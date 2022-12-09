@@ -5,17 +5,44 @@ using System.Threading.Tasks;
 
 namespace AssetManagement.Domain.System.ValueObjects
 {
+    /*
+    * MacAddress ValueObject implemented as an immutable object whos identity
+    * is determined by its values.
+    */
+
     public class IpAddress
     {
-        public string Ip { get; set; }
+        public string Ip { get; private set; }
 
-        public IpAddress()
+        public static IpAddress Create (string _Ip)
+        {
+            return new IpAddress(_Ip);
+        }
+
+        public static IpAddress Empty ()
+        {
+            return new IpAddress();
+        }
+
+        private IpAddress()
         {
         }
 
-        public IpAddress(string _Ip)
+        private IpAddress(string _Ip)
         {
             Ip = _Ip;
+        }
+
+        /* Overrides the GetHashCode method, necessary for certain comparison operations */
+        public override int GetHashCode() => new { Ip }.GetHashCode();
+
+        /* Overrides the Equals operator to provide a comparison based on the value of the fields */
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+                return false;
+            var other = (IpAddress)obj;
+            return other.Ip == Ip;
         }
     }
 }

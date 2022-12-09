@@ -5,20 +5,14 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Management;
-using System.Net;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 
 namespace AssetManagement.Domain.System.ValueObjects
 {
+    /*
+    * Software ValueObject implemented as an immutable object whos identity
+    * is determined by its values.
+    */
+
     public class Software
     {
         public string Name { get; private set; }
@@ -46,8 +40,10 @@ namespace AssetManagement.Domain.System.ValueObjects
             Manufacturer = _Manufacturer;
         }
 
+        /* Overrides the GetHashCode method, necessary for certain comparison operations */
         public override int GetHashCode() => new { Name, Version, Manufacturer }.GetHashCode();
 
+        /* Overrides the Equals operator to provide a comparison based on the value of the fields */
         public override bool Equals(Object obj)
         {
             if (obj == null)
