@@ -1,6 +1,5 @@
-[![main](https://github.com/cbryce996/asset-management/actions/workflows/main.yml/badge.svg)](https://github.com/cbryce996/asset-management/actions/workflows/main.yml)
-
 # Asset Management Application
+[![main](https://github.com/cbryce996/asset-management/actions/workflows/main.yml/badge.svg)](https://github.com/cbryce996/asset-management/actions/workflows/main.yml)
 
 ## Description
 An Asset Management application developed for my Software Engineering module, the main goal of this project is to learn software engineering principles through the design and development of a full software project. The project has been developed using Agile methods and incremental development with a small set of requirements to initially outline the project.
