@@ -21,7 +21,7 @@ namespace AssetManagement.Domain.Unit.System.ValueObjects
         public void ValidFormat()
         {
             // Create MacAddress from invalid format input
-            MacAddress test = new MacAddress("a0:b4:aB");
+            MacAddress test = MacAddress.Create("a0:b4:aB");
 
             string[] slice = test.Mac.Split(":");
 

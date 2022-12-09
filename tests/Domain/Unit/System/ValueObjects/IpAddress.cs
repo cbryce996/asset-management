@@ -27,7 +27,7 @@ namespace AssetManagement.Domain.Unit.System.ValueObjects
         public void ValidFormat()
         {
             // Create IpAddress from invalid input
-            IpAddress test = new IpAddress("192.168");
+            IpAddress test = IpAddress.Create("192.168");
 
             string[] slice = test.Ip.Split(".");
 
@@ -40,7 +40,7 @@ namespace AssetManagement.Domain.Unit.System.ValueObjects
         public void IsInLocalRange()
         {
             // Create IpAddress from out of range input
-            IpAddress test = new IpAddress("172.0.0.0");
+            IpAddress test = IpAddress.Create("172.0.0.0");
 
             string[] slice = test.Ip.Split(".");
             
@@ -52,7 +52,7 @@ namespace AssetManagement.Domain.Unit.System.ValueObjects
         public void IsCorrectSize()
         {
             // Create IpAddress from large input
-            IpAddress test = new IpAddress("192.168.1000.1000");
+            IpAddress test = IpAddress.Create("192.168.1000.1000");
 
             string[] slice = test.Ip.Split(".");
             
