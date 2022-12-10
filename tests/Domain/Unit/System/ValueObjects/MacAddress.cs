@@ -20,13 +20,14 @@ namespace AssetManagement.Domain.Unit.System.ValueObjects
         [Fact]
         public void ValidFormat()
         {
-            // Create MacAddress from invalid format input
+            // Prepare test variables
             MacAddress test = MacAddress.Create("a0:b4:aB");
 
+            // Execute test action
             string[] slice = test.Mac.Split(":");
 
-            // Check if result equals valid format
-            Assert.True(slice.Length == 5, "Should not be able to create Mac with invalid format (Example: a0:b4:aB)");
+            // Assert test expectations
+            Assert.True(slice.Length == 5, "Should not be able to create Mac Address with invalid format (Example: a0:b4:aB)");
         }   
     }
 }
