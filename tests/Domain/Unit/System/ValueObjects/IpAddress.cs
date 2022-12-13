@@ -22,41 +22,42 @@ namespace AssetManagement.Domain.Unit.System.ValueObjects
         {
         }
 
-        // Tests if IpAddress is in valid format
         [Fact]
         public void ValidFormat()
         {
-            // Create IpAddress from invalid input
-            IpAddress test = new IpAddress("192.168");
+            // Prepare test variables
+            IpAddress test = IpAddress.Create("192.168");
 
+            // Execute test action
             string[] slice = test.Ip.Split(".");
 
-            // Check if result equals valid format
+            // Assert test expectations
             Assert.True(slice.Length == 4, "Should not be able to create IP with invalid format (Example: 192.158.0)");
         }
 
-        // Tests if IpAddress is in expected local range
         [Fact]
         public void IsInLocalRange()
         {
-            // Create IpAddress from out of range input
-            IpAddress test = new IpAddress("172.0.0.0");
+            // Prepare test variables
+            IpAddress test = IpAddress.Create("172.0.0.0");
 
+            // Execute test action
             string[] slice = test.Ip.Split(".");
             
-            // Chack if result in expected range
+            // Assert test expectations
             Assert.True(slice[0] == "192", "Should not be able to create IP outside of local range (Allowed: 170.0.0.0)");
         }
 
         [Fact]
         public void IsCorrectSize()
         {
-            // Create IpAddress from large input
-            IpAddress test = new IpAddress("192.168.1000.1000");
+            // Prepare test variables
+            IpAddress test = IpAddress.Create("192.168.1000.1000");
 
+            // Execute test action
             string[] slice = test.Ip.Split(".");
             
-            // Check if result is correct size
+            // Assert test expectations
             foreach (string s in slice)
             {
                 Assert.True(s.Length <= 3, "Should not be able to create IP with invalid fields (Example: 192.168.1000.1000)");

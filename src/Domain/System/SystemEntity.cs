@@ -39,12 +39,15 @@ namespace AssetManagement.Domain.System
             InstalledSoftware = new List<Software>();
         }
 
-        public void AddSoftware(Software _software)
+        public bool AddSoftware(Software _software)
         {
             if (!InstalledSoftware.Contains(_software))
             {
                 InstalledSoftware.Add(_software);
+                return true;
             }
+
+            return false;
         }
 
         public void RemoveSoftware(Software _software)
