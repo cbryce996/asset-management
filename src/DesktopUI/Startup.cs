@@ -15,6 +15,8 @@ using AssetManagement.Application.Admin;
 using Microsoft.AspNetCore.Mvc.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using AssetManagement.Application.Auth;
+using System.IO;
+using System;
 
 namespace AssetManagement.DesktopUI
 {
@@ -30,11 +32,12 @@ namespace AssetManagement.DesktopUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // MySql connection string
-            var connectionString = "Server=lochnagar.abertay.ac.uk;User=sql2004624;Password=b8DWGSDHEaoB;Database=sql2004624";
+            DotNetEnv.Env.Load();
+
+            string connString = Environment.GetEnvironmentVariable("CONN_STRING");
 
             // Create DbContext and inject
-            services.AddDbContext<ApplicationDbContext>(option => option.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+            services.AddDbContext<ApplicationDbContext>(option => option.UseMySql(connString, ServerVersion.AutoDetect(connString)));
 
             // Inject Application layer services
             services.AddTransient<AdminServices>();

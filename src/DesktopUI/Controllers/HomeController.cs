@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Management;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using AssetManagement.Application.Admin;
 using AssetManagement.Application.Admin.DTOs;
@@ -215,6 +220,33 @@ namespace AssetManagement.DesktopUI.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult AutoGetSystem()
+        {
+            SystemViewModel systemViewModel = new SystemViewModel();
+
+
+            systemViewModel.IpAddress = Dns.GetHostEntry(Dns.GetHostName())
+            .AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork)
+            .ToString();
+
+            ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
+
+            ManagementObjectCollection mcCol = mc.GetInstances();
+
+            foreach (ManagementObject mcObj in mcCol)
+            {
+                if (mcObj["MacAddress"] != null)
+                {
+                    systemViewModel.MacAddress = mcObj["MacAddress"].ToString();
+                    break;
+                }
+            }
+
+            systemViewModel.SystemName = Environment.MachineName;
+
+            return View("AddNewSystem", systemViewModel);
+        }
+
         [HttpGet]
         public async Task<IActionResult> AutoGetSoftwareOnSystem(string _systemId)
         {
@@ -246,12 +278,6 @@ namespace AssetManagement.DesktopUI.Controllers
             await Software(softwareViewModels, _systemId);
 
             return RedirectToAction("LookupSoftwareOnSystem", "Home", new { _systemId = _systemId });
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> NewSystem()
-        {
-            return View();
         }
 
         [HttpGet]

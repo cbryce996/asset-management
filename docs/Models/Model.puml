@@ -2,137 +2,184 @@
 
 package Domain {
 
-package Software {
+    package System {
 
-Software --o SoftwareId
+        System --o IPAddress
+        System --o MACAddress
+        System --* Software
 
-class Software <<AggregateRoot>> {
- + SoftwareId Id
- + string Name
- + string Version
- + string Manufacturer
-}
+        class System <<AggregateRoot>> {
+            + SystemName Name
+            + SystemId Id
+            + IPAddress Ip
+            + MACAddress Mac
+            + List<Software> InstalledSoftware
+            + bool AddSoftware(Software)
+            + void RemoveSoftware(Software)
+        }
 
- class SoftwareId <<ValueObject>> {
- + string Id
- - string BuildId()
- }
+        class IPAddress <<ValueObject>> {
+            + string Ip
+        }
 
-}
+        class MACAddress <<ValueObject>> {
+            + string MACAddress
+        }
 
-package System {
+        class Software <<ValueObject>> {
+            + string Name
+            + string Version
+            + string Manufacturer
+        }
 
-class HardwareHash <<ValueObject>> {
- + string Hash
- + string GenerateHash()
-}
+    }
 
+    package User {
 
-System --o SystemId
-System --o IPAddress
-System --o MACAddress
+        class User <<AggregateRoot>> {
+            + Guid Id
+            + string Username
+            + string Password
+        }
 
-class System <<AggregateRoot>> {
- + SystemId Id
- + IPAddress Ip
- + MACAddress Mac
-}
-
-SystemId o-- HardwareHash
-
-class SystemId <<ValueObject>> {
- + string Id
- - string BuildId()
-}
-
-class IPAddress <<ValueObject>> {
- + string Ip
-}
-
-class MACAddress <<ValueObject>> {
- + string MACAddress
-}
+    }
 
 }
 
-package Install {
+package Application {
 
-Install --o InstallId
-Install --* System
-Install --* Software
+     package Auth {
 
-class Install <<AggregateRoot>> {
- + InstallId Id
- + SoftwareId SoftwareId
- + SystemId SystemId
+        AuthServices --o UserDTO
+        AuthServices --* User
+        
+        class AuthServices {
+            - IUnitOfWork unitOfWork
+            + CheckIfUserExists(UserDTO) : UserDTO
+        }
+
+        class UserDTO {
+            + srting Id
+            + string Username
+            + string Password
+        }
+
+    }
+
+    package Interfaces {
+
+        IUnitOfWork --o IRepository
+
+        interface IUnitOfWork {
+            + IRepository Repository
+        }
+
+        interface IRepository {
+
+        }
+
+    }
+
+    package Admin {
+
+        AdminServices --o SoftwareDTO
+        AdminServices --o SystemDTO
+        AdminServices --o IUnitOfWork
+        AdminServices --* System
+
+        class AdminServices {
+            - IUnitOfWork UnitOfWork
+            + GetAllSystems() : List<SystemDTO>
+            + GetSystemById(string) : SystemDTO
+            + AddSystem(SystemDTO) : SystemDTO
+            + AddSoftwareToSystem(SoftwareDTO, string) : SoftwareDTO
+            + DeleteSoftware(SoftwareDTO, string)
+            + DeleteSystem(string)
+        }
+
+        class SoftwareDTO {
+            + string Id
+            + string Name
+            + string Manufacturer
+            + string Version
+        }
+
+        class SystemDTO {
+            + string Id
+            + string Name
+            + string Ip
+            + string Mac
+        }
+
+    }
+
 }
 
-class InstallId <<ValueObject>> {
- + string Id
-}
+package DesktopUI {
 
-}
+    HomeController --o AdminServices
 
-package User {
+    class HomeController {
+        - AdminServices adminServices
+    }
 
-User o-- UserId
+    AccountController --o AuthServices
 
-class User <<AggregateRoot>> {
- + UserId Id
- + string Username
- + string Password
- + int Permissions
-}
-
-class UserId <<ValueObject>> {
- + string Id
- - string BuildId()
-}
-
-}
+    class AccountController {
+        - AuthServices authServices
+    }
 
 }
 
 package Infrastructure {
 
-package Repository {
+    package Repository {
 
-AssetRepository --> Repository
+        SystemRepository --> Repository
+        UserRepository --> Repository
 
-class AssetRepository {
- + Assets: List<Asset>
-}
+        class SystemRepository {
+            + List<System> Systems
+        }
 
-class Repository {
- + Entities : List<T>
- + bool Add(T)
- + List<T> All()
- + Asset Get(id)
- + bool Remove(id)
-}
+        class UserRepository {
+            + List<User> Users
+        }
 
-}
+        Repository --> IRepository
 
-package Persistence {
+        class Repository {
+            + Entities : List<T>
+            + bool Add(T)
+            + List<T> All()
+            + Asset Get(id)
+            + bool Remove(id)
+        }
 
-UnitOfWork --o DbContext
-UnitOfWork --o AssetRepository
+    }
 
-class UnitOfWork {
- + Asset : Repository
- + DbContext : DbContext
- + void Start()
- + void Complete()
- + void Dispose()
-}
+    package Persistence {
 
-class DbContext {
- + Connection : String
- + bool Query(String)
- + bool Connect()
-}
+        UnitOfWork --o DbContext
+        UnitOfWork --o SystemRepository
+        UnitOfWork --o UserRepository
+        UnitOfWork --> IUnitOfWork
 
-}
+        class UnitOfWork {
+            + Asset : Repository
+            + DbContext : DbContext
+            + void Start()
+            + void Complete()
+            + void Dispose()
+        }
+
+        class DbContext {
+            + Connection : String
+            + bool Query(String)
+            + bool Connect()
+        }
+
+    }
 
 }
 @enduml
