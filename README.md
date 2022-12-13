@@ -18,7 +18,7 @@ An Asset Management application developed for my Software Engineering module, th
 
 ## Models
 
-![Model](https://ibb.co/rt1PC0n "Model")
+![Model](https://i.ibb.co/vBK57q2/Model.png "Model")
 
 
 ## Setup
