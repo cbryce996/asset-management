@@ -1,0 +1,29 @@
+@startuml Login Sequence
+
+Actor User
+
+User -> HomeController : Add New System
+
+alt successful case
+
+HomeController -> AdminServices : Data Valid
+AdminServices -> SystemRepository : Add to Database
+SystemRepository -> AdminServices : Added System
+AdminServices -> HomeController : Added System
+HomeController -> User : Show New System
+
+else invalid data
+
+HomeController -> User : Show Error
+
+else database error
+
+HomeController -> AdminServices : Data Valid
+AdminServices -> SystemRepository : Add to Database
+SystemRepository -> AdminServices : Not Added
+AdminServices -> HomeController : Not Added
+HomeController -> User : Show Error
+
+end
+
+@enduml

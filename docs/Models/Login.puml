@@ -1,0 +1,24 @@
+@startuml Login Sequence
+
+Actor User
+
+User -> AuthController : Authentication Request
+AuthController -> AuthServices : Check User Credentials
+
+alt successful case
+
+AuthServices -> AuthController : User Found
+AuthController -> User : Generate Authentication Cookie
+
+else invalid data
+
+AuthController -> User : Show Error
+
+else user does not exist
+
+AuthServices -> AuthController : User Not Found
+AuthController -> User : Show Error
+
+end
+
+@enduml

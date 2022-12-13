@@ -37,7 +37,7 @@ namespace AssetManagement.DesktopUI
             string connString = Environment.GetEnvironmentVariable("CONN_STRING");
 
             // Create DbContext and inject
-            services.AddDbContext<ApplicationDbContext>(option => option.UseMySql(connString, ServerVersion.AutoDetect(connString)));
+            services.AddDbContext<ApplicationDbContext>(option => option.UseMySql("Server=lochnagar.abertay.ac.uk;User=sql2004624;Password=b8DWGSDHEaoB;Database=sql2004624", ServerVersion.AutoDetect("Server=lochnagar.abertay.ac.uk;User=sql2004624;Password=b8DWGSDHEaoB;Database=sql2004624")));
 
             // Inject Application layer services
             services.AddTransient<AdminServices>();
